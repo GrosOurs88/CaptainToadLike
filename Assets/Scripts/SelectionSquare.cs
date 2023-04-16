@@ -25,16 +25,41 @@ public class SelectionSquare : MonoBehaviour
 
     private bool isDown = false;
 
-   // ----- private NavMeshAgent SelectedAgent = null;
+    public static SelectionSquare Instance;
 
     private void Awake()
     {
+        Instance = this; 
+    }
+
+    private void Start()
+    {
+        UIManager.Instance.UnitBaseAmount = 0;
+        UIManager.Instance.UnitCarrierAmount = 0;
+        UIManager.Instance.UnitFighterAmount = 0;
+
         //Cherche toutes les unité sur la scène et remplit availableWarriorList
         foreach (var unit in FindObjectsOfType<Unit>())
         {
             availableUnitList.Add(unit.gameObject);
-        }
 
+            //Add units available at start to the units UI amounts
+            switch (unit.unitType)
+            {
+                case EnumTypes.UnitTypes.unitbase:
+                    UIManager.Instance.UnitBaseAmount += 1;
+                    UIManager.Instance.UnitBaseAmountText.text = UIManager.Instance.UnitBaseAmount.ToString();
+                    break;
+                case EnumTypes.UnitTypes.unitcarrier:
+                    UIManager.Instance.UnitCarrierAmount += 1;
+                    UIManager.Instance.UnitCarrierAmountText.text = UIManager.Instance.UnitCarrierAmount.ToString();
+                    break;
+                case EnumTypes.UnitTypes.unitfighter:
+                    UIManager.Instance.UnitFighterAmount += 1;
+                    UIManager.Instance.UnitFighterAmountText.text = UIManager.Instance.UnitFighterAmount.ToString();
+                    break;
+            }
+        }
         //Initialise selectedWarriorList
         selectedUnitList = new List<GameObject>();
 
@@ -52,7 +77,7 @@ public class SelectionSquare : MonoBehaviour
             // Déselectionne toutes les unités
             foreach (GameObject unit in selectedUnitList)
             {
-                unit.GetComponent<Unit>().Unselect();
+                unit.GetComponent<Unit>().IsUnselected();
             }
 
             //Vide le tableau de sélection
@@ -76,7 +101,7 @@ public class SelectionSquare : MonoBehaviour
 
                 foreach(GameObject unit in selectedUnitList)
                 {
-                    unit.GetComponent<Unit>().Select();
+                    unit.GetComponent<Unit>().IsSelected();
                 }
             }
         }
@@ -88,6 +113,17 @@ public class SelectionSquare : MonoBehaviour
 
             if (Physics.Raycast(rayRight, out hitRight, 100.0f))
             {
+                if(hitRight.collider.CompareTag("Cristal"))
+                {
+                    foreach (GameObject unit in selectedUnitList)
+                    {
+                        unit.GetComponent<Unit>().AsACristalDepositTarget = true;
+                        unit.GetComponent<Unit>().CristalDepositTarget = hitRight.collider.gameObject;
+                    }                    
+
+                    hitRight.point = hitRight.collider.transform.position;
+                }
+
                 NavMeshHit hit;
 
                 if (NavMesh.SamplePosition(hitRight.point, out hit, 0.5f, NavMesh.AllAreas))
@@ -95,12 +131,9 @@ public class SelectionSquare : MonoBehaviour
                     foreach(GameObject unit in selectedUnitList)
                     {
                         unit.GetComponent<NavMeshAgent>().destination = hitRight.point;
-                    }
 
-                    // Déselectionne toutes les unités
-                    foreach (GameObject unit in selectedUnitList)
-                    {
-                        unit.GetComponent<Unit>().Unselect();
+                      //  unit.GetComponent<Unit>().SetAnimationTrigger("IsMoving");
+                        unit.GetComponent<Unit>().IsUnselected();
                     }
 
                     //Vide le tableau de sélection
@@ -153,7 +186,7 @@ public class SelectionSquare : MonoBehaviour
                 selectedUnitList.Add(unit);
 
                 //Si oui, on sélectionne l'unité
-                unit.GetComponent<Unit>().Select();
+                unit.GetComponent<Unit>().IsSelected();
             }
         }
     }
