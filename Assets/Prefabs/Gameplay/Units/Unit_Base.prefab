@@ -130,6 +130,36 @@ Transform:
   m_Father: {fileID: 7072444061591351794}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4572079208929935089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2467146537774293001}
+  m_Layer: 3
+  m_Name: CristalCarryPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2467146537774293001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4572079208929935089}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.6, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7072444061591351794}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6552341576892182621
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6650944, g: 0.93862975, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1928,7 +1958,7 @@ GameObject:
   - component: {fileID: 7168938069264413320}
   - component: {fileID: 4201942123521440132}
   m_Layer: 3
-  m_Name: Unit
+  m_Name: Unit_Base
   m_TagString: Friendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1954,6 +1984,7 @@ Transform:
   - {fileID: 7072444061591351684}
   - {fileID: 3462479726839271339}
   - {fileID: 6829483848784231748}
+  - {fileID: 2467146537774293001}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2001,9 +2032,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.4
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 30
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -2024,7 +2055,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46a187ff5e7ea84083fb1f27df8d5ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerType: 4
   SelectionImage: {fileID: 6552341576892182621}
+  AsACristalDepositTarget: 0
+  CristalDepositTarget: {fileID: 0}
+  CarryACristal: 0
+  CarriedCristal: {fileID: 0}
+  CristalCarryPosition: {fileID: 2467146537774293001}
+  Base: {fileID: 0}
 --- !u!1 &7072444061591711188
 GameObject:
   m_ObjectHideFlags: 0

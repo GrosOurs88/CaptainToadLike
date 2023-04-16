@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_camera: {fileID: 0}
-  selectionBox: {fileID: 0}
-  availableWarriorList: []
-  selectedWarriorList: []
+  selectionBox: {fileID: 7362278557455457370}
+  layerMask: 3
+  availableUnitList: []
+  selectedUnitList: []
