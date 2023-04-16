@@ -23,6 +23,8 @@ public class EnumTypes : MonoBehaviour
 
     public GameObject UnitBasePrefab, UnitCarrierPrefab, UnitFighterPrefab;
 
+    public GameObject EnemySmallPrefab, EnemyMediumPrefab, EnemyBigPrefab;
+
     private void Awake()
     {
         Instance = this;

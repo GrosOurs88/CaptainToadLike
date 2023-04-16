@@ -11,8 +11,8 @@ public class SelectionSquare : MonoBehaviour
     //Rectangle de sélection
     public RectTransform selectionBox;
 
-    //Unit layer
-    public int layerMask = 3;
+    //Layers
+    public int layerMaskUnit = 3;
 
     //Unités disponibles
     public List<GameObject> availableUnitList;
@@ -26,6 +26,8 @@ public class SelectionSquare : MonoBehaviour
     private bool isDown = false;
 
     public static SelectionSquare Instance;
+
+    public GameObject DebugSphere;
 
     private void Awake()
     {
@@ -66,7 +68,7 @@ public class SelectionSquare : MonoBehaviour
         //Le rectangle de sélection ne doit pas être visible
         selectionBox.gameObject.SetActive(false);
 
-        layerMask = ~layerMask;
+        layerMaskUnit = ~layerMaskUnit;
     }
 
     private void Update()
@@ -95,7 +97,7 @@ public class SelectionSquare : MonoBehaviour
             Ray rayLeft = m_camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitLeft;
 
-            if (Physics.Raycast(rayLeft, out hitLeft, 100.0f, layerMask))
+            if (Physics.Raycast(rayLeft, out hitLeft, Mathf.Infinity, layerMaskUnit))
             {
                 selectedUnitList.Add(hitLeft.collider.gameObject);
 
@@ -111,7 +113,7 @@ public class SelectionSquare : MonoBehaviour
             Ray rayRight = m_camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitRight;
 
-            if (Physics.Raycast(rayRight, out hitRight, 100.0f))
+            if (Physics.Raycast(rayRight, out hitRight, Mathf.Infinity))
             {
                 if(hitRight.collider.CompareTag("Cristal"))
                 {
@@ -124,6 +126,21 @@ public class SelectionSquare : MonoBehaviour
                     hitRight.point = hitRight.collider.transform.position;
                 }
 
+                if (hitRight.collider.CompareTag("Portal"))
+                {
+                    print("spoueeet");
+
+                    //hitRight.point = hitRight.collider.transform.position;                   
+
+                    //Override le NavMesh.SamplePosition ci-dessous, sinon ça ne marche pas quand on clique sur un portail :/
+                    foreach (GameObject unit in selectedUnitList)
+                    {
+                        unit.GetComponent<NavMeshAgent>().destination = hitRight.collider.transform.position + RandomPointOnXZCircle(0.25f * selectedUnitList.Count);
+
+                        Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
+                    }
+                }
+
                 NavMeshHit hit;
 
                 if (NavMesh.SamplePosition(hitRight.point, out hit, 0.5f, NavMesh.AllAreas))
@@ -132,7 +149,11 @@ public class SelectionSquare : MonoBehaviour
                     {
                         unit.GetComponent<NavMeshAgent>().destination = hitRight.point;
 
-                      //  unit.GetComponent<Unit>().SetAnimationTrigger("IsMoving");
+                        // Augmente le rayon de la target en fonction du nombre d'unités sélectionnées (marche pas dans les pentes)
+                        // unit.GetComponent<NavMeshAgent>().destination = RandomPointOnXZCircle(hitRight.point, 0.25f * selectedUnitList.Count);
+
+                        Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
+
                         unit.GetComponent<Unit>().IsUnselected();
                     }
 
@@ -198,5 +219,12 @@ public class SelectionSquare : MonoBehaviour
             && position.x < bounds.max.x
             && position.y > bounds.min.y
             && position.y < bounds.max.y;
+    }
+
+    // Randomize une position autour d'un point donné
+    public Vector3 RandomPointOnXZCircle(float radius)
+    {
+        Vector2 randomPosition = Random.insideUnitCircle * radius;
+        return new Vector3(randomPosition.x, 0f, randomPosition.y);
     }
 }
