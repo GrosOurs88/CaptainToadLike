@@ -7,6 +7,8 @@ TagManager:
   - Friendly
   - Cristal
   - Portal
+  - Enemy
+  - Floor
   layers:
   - Default
   - TransparentFX

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LookAtCamera : MonoBehaviour
 {
-    void Update()
+    private void Update()
     {
         Camera camera = Camera.main;
 

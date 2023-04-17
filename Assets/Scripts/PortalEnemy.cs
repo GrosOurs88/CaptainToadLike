@@ -48,12 +48,12 @@ public class PortalEnemy : MonoBehaviour
         }
     }
 
-    public void ResetSpawn()
+    private void ResetSpawn()
     {
         SpawnGauge.transform.localScale = new Vector3(0f, 1.01f, 0f);
     }
 
-    public void SpawnProgress()
+    private void SpawnProgress()
     {
         SpawnGauge.transform.localScale += new Vector3(SpawnSpeed * Time.deltaTime, 0f, SpawnSpeed * Time.deltaTime);
 
@@ -64,7 +64,7 @@ public class PortalEnemy : MonoBehaviour
         }
     }
 
-    public void Spawn()
+    private void Spawn()
     {
         for(int i = 0; i< SmallEnemiesAmountPerSpawn; i++)
         {
@@ -80,7 +80,7 @@ public class PortalEnemy : MonoBehaviour
         }
     }
 
-    public void CaptureProgress()
+    private void CaptureProgress()
     {
         CaptureGauge.transform.localScale += new Vector3(CaptureSpeed * UnitsOnThePortal * Time.deltaTime, 0f, CaptureSpeed * UnitsOnThePortal * Time.deltaTime);
 
@@ -90,12 +90,12 @@ public class PortalEnemy : MonoBehaviour
         }
     }
 
-    public void Capture()
+    private void Capture()
     {
         Destroy(gameObject);
     }
 
-    public Vector3 RandomPointOnXZCircle(Vector3 center, float radius)
+    private Vector3 RandomPointOnXZCircle(Vector3 center, float radius)
     {
         float angle = Random.Range(0, 2f * Mathf.PI);
         return center + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;

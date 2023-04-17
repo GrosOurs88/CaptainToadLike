@@ -8,19 +8,35 @@ public class Unit : MonoBehaviour
     public EnumTypes.PlayerTypes playerType = EnumTypes.PlayerTypes.Count;
     public EnumTypes.UnitTypes unitType = EnumTypes.UnitTypes.Count;
 
-    public GameObject SelectionImage;
+    [Header("Cristal")]
+    public GameObject SelectionImage = null;
     public bool AsACristalDepositTarget = false;
-    public GameObject CristalDepositTarget;
+    public GameObject CristalDepositTarget = null;
     public bool CarryACristal = false;
     public GameObject CarriedCristal = null;
     private bool HasPath = false;
-    public Transform CristalCarryPosition;
-    public GameObject Base;
-    private NavMeshAgent NavmeshAgent;
+    public Transform CristalCarryPosition = null;
+    public GameObject Base = null;
+    private NavMeshAgent NavmeshAgent = null;
+    [Header("Shot")]
+    public bool HasEnemyTarget = false;
+    public GameObject EnemyTarget = null;
+    public float FireRate = 2.0f;
+    private float FireRateTimer = 0.0f;
+    public CapsuleCollider CapsuleTrigger = null;
+    private float ShotDistance = 0.0f;
+    public Transform BulletSpawner = null;
+    private GameObject NewBullet = null;
+    private GameObject BulletPrefab;
+    public int PV = 5;
+    public float ShootOffsetY = 1.0f;
+
 
     private void Start()
     {
         NavmeshAgent = GetComponent<NavMeshAgent>();
+        ShotDistance = CapsuleTrigger.radius + 0.5f; //offset to avoid the enemy to be perfectly at the distance of the sphere trigger
+        BulletPrefab = EnumTypes.Instance.BulletPrefab;
 
         SetBase();
         IsUnselected();
@@ -29,9 +45,61 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         CheckPath();
+        if (HasEnemyTarget)
+        {
+            if (EnemyTarget == null)
+            {
+                SetAnimationBool("IsShooting", false);
+                HasEnemyTarget = false;
+
+                LookForANewTarget();
+
+                return;
+            }
+
+            LookAtEnemy();
+            CheckEnemyDistance();
+
+            if (CheckEnemyDistance() <= ShotDistance)
+            {
+                FireRateTimer += Time.deltaTime;
+                if (FireRateTimer >= FireRate)
+                {
+                    Shoot();
+                    FireRateTimer = 0.0f;
+                }
+            }
+        }
     }
 
-    public void CheckPath()
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy") && HasEnemyTarget == false)
+        {
+            SetAnimationBool("IsShooting", true);
+
+            EnemyTarget = other.gameObject;
+            HasEnemyTarget = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == EnemyTarget)
+        {
+            SetAnimationBool("IsShooting", false);
+
+            EnemyTarget = null;
+            HasEnemyTarget = false;
+        }
+    }
+
+    private float CheckEnemyDistance()
+    {
+        return (transform.position - EnemyTarget.transform.position).magnitude;
+    }
+
+    private void CheckPath()
     {
         if (!HasPath)
         {
@@ -61,13 +129,13 @@ public class Unit : MonoBehaviour
         SelectionImage.SetActive(false);
     }
 
-    public void SelectCristalTarget(GameObject target)
+    private void SelectCristalTarget(GameObject target)
     {
         CristalDepositTarget = target;
         AsACristalDepositTarget = true;
     }
 
-    public void UnselectCristalTarget()
+    private void UnselectCristalTarget()
     {
         CristalDepositTarget = null;
         AsACristalDepositTarget = false;
@@ -77,7 +145,7 @@ public class Unit : MonoBehaviour
     {
         EnumTypes.CristalTypes type = cristalDeposit.GetComponent<CristalDeposit>().cristalType;
 
-        switch(type)
+        switch (type)
         {
             case EnumTypes.CristalTypes.blue:
                 CarriedCristal = Instantiate(EnumTypes.Instance.CristalBluePrefab, CristalCarryPosition.position, Quaternion.identity, CristalCarryPosition);
@@ -91,7 +159,7 @@ public class Unit : MonoBehaviour
         }
 
         CarryACristal = true;
-    }  
+    }
 
     public void DestroyCristal()
     {
@@ -105,12 +173,17 @@ public class Unit : MonoBehaviour
         CarryACristal = false;
     }
 
-    public void SetAnimationTrigger(string animTriggerName)
+    private void SetAnimationTrigger(string animTriggerName)
     {
         GetComponent<Animator>().SetTrigger(animTriggerName);
     }
 
-    public void SetBase()
+    private void SetAnimationBool(string animBoolName, bool boolValue)
+    {
+        GetComponent<Animator>().SetBool(animBoolName, boolValue);
+    }
+
+    private void SetBase()
     {
         switch (playerType)
         {
@@ -127,5 +200,59 @@ public class Unit : MonoBehaviour
                 Base = EnumTypes.Instance.BaseEnemy3;
                 break;
         }
+    }
+
+    private void LookAtEnemy()
+    {
+        transform.LookAt(EnemyTarget.transform.position, Vector3.up);
+        transform.rotation *= Quaternion.Euler(1.0f, 0.0f, 1.0f);
+    }
+
+    private void Shoot()
+    {
+        NewBullet = Instantiate(BulletPrefab, BulletSpawner.position, Quaternion.identity);
+        NewBullet.transform.LookAt(EnemyTarget.transform.position + Vector3.up * ShootOffsetY);
+    }
+
+    private void LookForANewTarget()
+    {
+        float Dist = 100.0f;
+        GameObject NewTarget = null;
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, CapsuleTrigger.radius);
+
+        foreach (Collider col in hitColliders)
+        {
+            if(col.CompareTag("Enemy"))
+            {
+                if ((col.transform.position - transform.position).magnitude < Dist)
+                {
+                    Dist = (col.transform.position - transform.position).magnitude;
+                    NewTarget = col.gameObject;
+                }
+            }
+        }
+
+        if(NewTarget != null)
+        {
+            SetAnimationBool("IsShooting", true);
+            EnemyTarget = NewTarget;
+            HasEnemyTarget = true;
+        }
+    }
+
+    public void TakeDamage()
+    {
+        PV -= 1;
+
+        if (PV <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

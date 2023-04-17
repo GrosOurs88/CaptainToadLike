@@ -126,6 +126,16 @@ public class SelectionSquare : MonoBehaviour
                     hitRight.point = hitRight.collider.transform.position;
                 }
 
+                if (hitRight.collider.CompareTag("Enemy"))
+                {
+                    foreach (GameObject unit in selectedUnitList)
+                    {
+                        unit.GetComponent<Unit>().EnemyTarget = hitRight.collider.gameObject;
+                    }
+
+                    hitRight.point = hitRight.collider.transform.position;
+                }
+
                 if (hitRight.collider.CompareTag("Portal"))
                 {
                     print("spoueeet");
@@ -137,7 +147,7 @@ public class SelectionSquare : MonoBehaviour
                     {
                         unit.GetComponent<NavMeshAgent>().destination = hitRight.collider.transform.position + RandomPointOnXZCircle(0.25f * selectedUnitList.Count);
 
-                        Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
+                        //Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
                     }
                 }
 
@@ -152,7 +162,7 @@ public class SelectionSquare : MonoBehaviour
                         // Augmente le rayon de la target en fonction du nombre d'unités sélectionnées (marche pas dans les pentes)
                         // unit.GetComponent<NavMeshAgent>().destination = RandomPointOnXZCircle(hitRight.point, 0.25f * selectedUnitList.Count);
 
-                        Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
+                        //Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
 
                         unit.GetComponent<Unit>().IsUnselected();
                     }
@@ -170,8 +180,6 @@ public class SelectionSquare : MonoBehaviour
 
             //Fait disparaitre le rectangle de sélection
             selectionBox.gameObject.SetActive(false);
-
-
         }
 
         //Si on n'est pas en train d'appuyer le bouton, on return pour ne pas lire le reste du script
@@ -222,7 +230,7 @@ public class SelectionSquare : MonoBehaviour
     }
 
     // Randomize une position autour d'un point donné
-    public Vector3 RandomPointOnXZCircle(float radius)
+    private Vector3 RandomPointOnXZCircle(float radius)
     {
         Vector2 randomPosition = Random.insideUnitCircle * radius;
         return new Vector3(randomPosition.x, 0f, randomPosition.y);

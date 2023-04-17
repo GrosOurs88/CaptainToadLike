@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI CristalBlueText, CristalYellowText, CristalRedText;
     public int CristalBlueAmount, CristalYellowAmount, CristalRedAmount;
-    public GameObject PlayerBase;
+    private GameObject PlayerBase;
     [Header("Base Units")]
     public TextMeshProUGUI UnitBaseAmountText;
     [HideInInspector] public int UnitBaseAmount = 0;
@@ -48,6 +48,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        PlayerBase = EnumTypes.Instance.BasePlayer;
         ResetCristalsUI();
         ResetUnitsUI();
     }
@@ -63,7 +64,7 @@ public class UIManager : MonoBehaviour
         CristalRedText.text = CristalRedAmount.ToString();
     }
 
-    public void RemoveCristals(int amountBlue, int amountYellow, int amountRed)
+    private void RemoveCristals(int amountBlue, int amountYellow, int amountRed)
     {
         CristalBlueAmount -= amountBlue;
         CristalYellowAmount -= amountYellow;
@@ -74,7 +75,7 @@ public class UIManager : MonoBehaviour
         CristalRedText.text = CristalRedAmount.ToString();
     }
 
-    public void ResetCristalsUI()
+    private void ResetCristalsUI()
     {
         CristalBlueAmount = 0;
         CristalYellowAmount = 0;
@@ -85,7 +86,7 @@ public class UIManager : MonoBehaviour
         CristalRedText.text = CristalRedAmount.ToString();
     }
 
-    public void ResetUnitsUI()
+    private void ResetUnitsUI()
     {
         UnitBaseAmountText.text = UnitBaseAmount.ToString();
         UnitCarrierAmountText.text = UnitCarrierAmount.ToString();
@@ -108,7 +109,7 @@ public class UIManager : MonoBehaviour
     {
         if(CristalBlueAmount >= UnitBaseCristalBlueNeeded && CristalYellowAmount >= UnitBaseCristalYellowNeeded && CristalRedAmount >= UnitBaseCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitBasePrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(), Quaternion.identity);
+            NewUnit = Instantiate(EnumTypes.Instance.UnitBasePrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(PlayerBase.transform.localScale.x/2 - 1.0f), Quaternion.identity);
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
 
             RemoveCristals(UnitBaseCristalBlueNeeded, UnitBaseCristalYellowNeeded, UnitBaseCristalRedNeeded);
@@ -122,7 +123,7 @@ public class UIManager : MonoBehaviour
     {
         if (CristalBlueAmount >= UnitCarrierCristalBlueNeeded && CristalYellowAmount >= UnitCarrierCristalYellowNeeded && CristalRedAmount >= UnitCarrierCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitCarrierPrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(), Quaternion.identity);
+            NewUnit = Instantiate(EnumTypes.Instance.UnitCarrierPrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(PlayerBase.transform.localScale.x/2 - 1.0f), Quaternion.identity);
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
 
             RemoveCristals(UnitCarrierCristalBlueNeeded, UnitCarrierCristalYellowNeeded, UnitCarrierCristalRedNeeded);
@@ -136,7 +137,7 @@ public class UIManager : MonoBehaviour
     {
         if (CristalBlueAmount >= UnitFighterCristalBlueNeeded && CristalYellowAmount >= UnitFighterCristalYellowNeeded && CristalRedAmount >= UnitFighterCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitFighterPrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(), Quaternion.identity);
+            NewUnit = Instantiate(EnumTypes.Instance.UnitFighterPrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(PlayerBase.transform.localScale.x/2 - 1.0f), Quaternion.identity);
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
 
             RemoveCristals(UnitFighterCristalBlueNeeded, UnitFighterCristalYellowNeeded, UnitFighterCristalRedNeeded);
@@ -146,9 +147,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public Vector3 RandomPositionInsideBaseArea()
+    private Vector3 RandomPositionInsideBaseArea(float radius)
     {
-        RandomSpawningPosition = new Vector3 (Random.Range(-1,1), 0.0f, Random.Range(-1, 1));
+        RandomSpawningPosition = new Vector3 (Random.Range(-1.0f,1.0f) * radius, 0.0f, Random.Range(-1.0f, 1.0f) * radius);
 
         return RandomSpawningPosition;
     }

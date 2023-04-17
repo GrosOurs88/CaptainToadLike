@@ -15,13 +15,13 @@ public class CameraControl : MonoBehaviour
     public float MaxCamFOV = 35.0f;
 
 
-    void Start()
+    private void Start()
     {
         Cam = GetComponent<Camera>();
         Cam.fieldOfView = DefaultCamFOV;
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKey(Left))
         {
@@ -44,7 +44,7 @@ public class CameraControl : MonoBehaviour
         // CameraHeight();
     }
 
-    public void CameraFOV()
+    private void CameraFOV()
     {
         Cam.fieldOfView -= Input.mouseScrollDelta.y * CameraFOVSensibility * Time.deltaTime;
         Cam.fieldOfView = Mathf.Clamp(Cam.fieldOfView, MinCamFOV, MaxCamFOV);

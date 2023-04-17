@@ -7,6 +7,14 @@ public class Base : MonoBehaviour
 {
     private GameObject CristalCanvas = null;
 
+    public int PV = 10;
+    private float DamageRatio = 0f;
+
+    private void Start()
+    {
+        DamageRatio = transform.localScale.x / (float)PV;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Friendly") && other.GetComponent<Unit>().CarryACristal)
@@ -17,9 +25,16 @@ public class Base : MonoBehaviour
 
             other.GetComponent<NavMeshAgent>().SetDestination(other.GetComponent<Unit>().CristalDepositTarget.transform.position);
         }
+
+        if (other.CompareTag("Enemy"))
+        {
+            TakeDamage();
+
+            Destroy(other.gameObject);
+        }
     }
 
-    public void AddResources(Collider col)
+    private void AddResources(Collider col)
     {
         EnumTypes.CristalTypes cristaltype = col.GetComponent<Unit>().CarriedCristal.GetComponent<Cristal>().cristalType;
 
@@ -40,5 +55,20 @@ public class Base : MonoBehaviour
                 CristalCanvas.GetComponent<CanvasCristal>().CristalIcon.color = EnumTypes.Instance.CristalRedColor;
                 break;
         }
+    }
+
+    private void TakeDamage()
+    {
+        transform.localScale -= new Vector3(DamageRatio, 0f, DamageRatio);
+
+        if (transform.localScale.x <= 0.05f)
+        {
+            GameOver();
+        }
+    }
+
+    private void GameOver()
+    {
+        print("Game Over");
     }
 }
