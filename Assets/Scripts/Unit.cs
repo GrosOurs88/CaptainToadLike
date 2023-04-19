@@ -30,6 +30,7 @@ public class Unit : MonoBehaviour
     private GameObject BulletPrefab;
     public int PV = 5;
     public float ShootOffsetY = 1.0f;
+    public float StopMovingDistance = 0.1f;
 
 
     private void Start()
@@ -62,6 +63,8 @@ public class Unit : MonoBehaviour
 
             if (CheckEnemyDistance() <= ShotDistance)
             {
+              //  NavmeshAgent.ResetPath();
+
                 FireRateTimer += Time.deltaTime;
                 if (FireRateTimer >= FireRate)
                 {
@@ -70,29 +73,7 @@ public class Unit : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy") && HasEnemyTarget == false)
-        {
-            SetAnimationBool("IsShooting", true);
-
-            EnemyTarget = other.gameObject;
-            HasEnemyTarget = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject == EnemyTarget)
-        {
-            SetAnimationBool("IsShooting", false);
-
-            EnemyTarget = null;
-            HasEnemyTarget = false;
-        }
-    }
+    }   
 
     private float CheckEnemyDistance()
     {
@@ -101,6 +82,11 @@ public class Unit : MonoBehaviour
 
     private void CheckPath()
     {
+        if((transform.position - NavmeshAgent.destination).magnitude <= StopMovingDistance)
+        {
+            NavmeshAgent.ResetPath();
+        }
+
         if (!HasPath)
         {
             if (NavmeshAgent.hasPath)
@@ -109,7 +95,7 @@ public class Unit : MonoBehaviour
                 HasPath = true;
             }
         }
-        if (HasPath)
+        else if (HasPath)
         {
             if (!NavmeshAgent.hasPath)
             {
@@ -178,7 +164,7 @@ public class Unit : MonoBehaviour
         GetComponent<Animator>().SetTrigger(animTriggerName);
     }
 
-    private void SetAnimationBool(string animBoolName, bool boolValue)
+    public void SetAnimationBool(string animBoolName, bool boolValue)
     {
         GetComponent<Animator>().SetBool(animBoolName, boolValue);
     }
@@ -253,6 +239,13 @@ public class Unit : MonoBehaviour
 
     private void Die()
     {
+        SelectionSquare.Instance.availableUnitList.Remove(gameObject);
+
+        if(SelectionSquare.Instance.selectedUnitList.Contains(gameObject))
+        {
+            SelectionSquare.Instance.selectedUnitList.Remove(gameObject);
+        }
+
         Destroy(gameObject);
     }
 }

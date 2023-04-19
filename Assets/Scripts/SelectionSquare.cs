@@ -12,7 +12,7 @@ public class SelectionSquare : MonoBehaviour
     public RectTransform selectionBox;
 
     //Layers
-    public int layerMaskUnit = 3;
+    public LayerMask layerMaskUnit;
 
     //Unités disponibles
     public List<GameObject> availableUnitList;
@@ -25,9 +25,13 @@ public class SelectionSquare : MonoBehaviour
 
     private bool isDown = false;
 
+    private bool IsACristalSelected = false;
+
     public static SelectionSquare Instance;
 
     public GameObject DebugSphere;
+
+    private MovementManagerScriptableObject MovementData;
 
     private void Awake()
     {
@@ -36,6 +40,8 @@ public class SelectionSquare : MonoBehaviour
 
     private void Start()
     {
+        MovementData = EnumTypes.Instance.MovementData;
+
         UIManager.Instance.UnitBaseAmount = 0;
         UIManager.Instance.UnitCarrierAmount = 0;
         UIManager.Instance.UnitFighterAmount = 0;
@@ -67,8 +73,6 @@ public class SelectionSquare : MonoBehaviour
 
         //Le rectangle de sélection ne doit pas être visible
         selectionBox.gameObject.SetActive(false);
-
-        layerMaskUnit = ~layerMaskUnit;
     }
 
     private void Update()
@@ -110,6 +114,8 @@ public class SelectionSquare : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            IsACristalSelected = false;
+
             Ray rayRight = m_camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitRight;
 
@@ -117,6 +123,8 @@ public class SelectionSquare : MonoBehaviour
             {
                 if(hitRight.collider.CompareTag("Cristal"))
                 {
+                    IsACristalSelected = true;
+
                     foreach (GameObject unit in selectedUnitList)
                     {
                         unit.GetComponent<Unit>().AsACristalDepositTarget = true;
@@ -131,6 +139,13 @@ public class SelectionSquare : MonoBehaviour
                     foreach (GameObject unit in selectedUnitList)
                     {
                         unit.GetComponent<Unit>().EnemyTarget = hitRight.collider.gameObject;
+
+                        if(unit.GetComponent<Unit>().CarryACristal)
+                        {
+                            unit.GetComponent<Unit>().CarryACristal = false;
+                            unit.GetComponent<Unit>().CarriedCristal = null;
+                            Destroy(unit.GetComponent<Unit>().CristalCarryPosition.GetChild(0).gameObject);
+                        }
                     }
 
                     hitRight.point = hitRight.collider.transform.position;
@@ -138,37 +153,24 @@ public class SelectionSquare : MonoBehaviour
 
                 if (hitRight.collider.CompareTag("Portal"))
                 {
-                    print("spoueeet");
-
-                    //hitRight.point = hitRight.collider.transform.position;                   
-
-                    //Override le NavMesh.SamplePosition ci-dessous, sinon ça ne marche pas quand on clique sur un portail :/
-                    foreach (GameObject unit in selectedUnitList)
-                    {
-                        unit.GetComponent<NavMeshAgent>().destination = hitRight.collider.transform.position + RandomPointOnXZCircle(0.25f * selectedUnitList.Count);
-
-                        //Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
-                    }
+                    print("Portal selected");
                 }
 
                 NavMeshHit hit;
 
                 if (NavMesh.SamplePosition(hitRight.point, out hit, 0.5f, NavMesh.AllAreas))
                 {
-                    foreach(GameObject unit in selectedUnitList)
+                    if(IsACristalSelected)
                     {
-                        unit.GetComponent<NavMeshAgent>().destination = hitRight.point;
-
-                        // Augmente le rayon de la target en fonction du nombre d'unités sélectionnées (marche pas dans les pentes)
-                        // unit.GetComponent<NavMeshAgent>().destination = RandomPointOnXZCircle(hitRight.point, 0.25f * selectedUnitList.Count);
-
-                        //Instantiate(DebugSphere, unit.GetComponent<NavMeshAgent>().destination, Quaternion.identity);
-
-                        unit.GetComponent<Unit>().IsUnselected();
+                        //Give the same position to each unit
+                        GetStaticMovementPosition(hitRight.point);
                     }
 
-                    //Vide le tableau de sélection
-                    selectedUnitList.Clear();
+                    else
+                    {
+                        //Give position to the units according to the MovementData scriptable object
+                        GetDynamicMovementPosition(hitRight.point);
+                    }
                 }
             }
         }
@@ -234,5 +236,23 @@ public class SelectionSquare : MonoBehaviour
     {
         Vector2 randomPosition = Random.insideUnitCircle * radius;
         return new Vector3(randomPosition.x, 0f, randomPosition.y);
+    }
+
+    private void GetStaticMovementPosition(Vector3 center)
+    {
+        for (int i = 0; i < selectedUnitList.Count; i++)
+        {
+            selectedUnitList[i].GetComponent<NavMeshAgent>().destination = center;
+        }
+    }
+
+    private void GetDynamicMovementPosition(Vector3 center)
+    {
+        for (int i = 0; i < selectedUnitList.Count; i++)
+        {
+            selectedUnitList[i].GetComponent<NavMeshAgent>().destination = center + MovementData.movementPoints[i];
+
+            //Instantiate(DebugSphere, center + MovementData.movementPoints[i], Quaternion.identity); //--DEBUG
+        }
     }
 }

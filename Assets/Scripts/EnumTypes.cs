@@ -7,6 +7,8 @@ public class EnumTypes : MonoBehaviour
 {
     public static EnumTypes Instance;
 
+    public MovementManagerScriptableObject MovementData;
+
     public enum CristalTypes { blue, yellow, red, Count };
 
     public GameObject CristalBluePrefab, CristalYellowPrefab, CristalRedPrefab;

@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1233180720566438005, guid: beff1f2bce8e62b42882e156f8e2aefe, type: 3}
       propertyPath: SpawnSpeed
-      value: 0.025
+      value: 0.0125
       objectReference: {fileID: 0}
     - target: {fileID: 1233180720566438005, guid: beff1f2bce8e62b42882e156f8e2aefe, type: 3}
       propertyPath: CaptureSpeed

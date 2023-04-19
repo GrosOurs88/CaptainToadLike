@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8f31807544410409cf2578b26a94ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MovementData: {fileID: 11400000, guid: e72307048d323944795dce74d1876377, type: 2}
   CristalBluePrefab: {fileID: 4370747672851226552, guid: 10d22b64ad06a394eae6443299016f5b, type: 3}
   CristalYellowPrefab: {fileID: 1639994940493413107, guid: d9c77b1d4aad9ba4584ce382fe4c2957, type: 3}
   CristalRedPrefab: {fileID: 1426955161950870974, guid: bf632f1a3c70aa644a6a5b2b0925e62b, type: 3}
@@ -59,9 +60,9 @@ MonoBehaviour:
   UnitBasePrefab: {fileID: 6160479694380938256, guid: c65d643893800474088d4103f967eb9d, type: 3}
   UnitCarrierPrefab: {fileID: 4234045002051893432, guid: f55ff6529e280894ead4f1049cffe656, type: 3}
   UnitFighterPrefab: {fileID: 8534452849079691316, guid: 96b70fbe09f4dde41b5b636333ba9fea, type: 3}
-  EnemySmallPrefab: {fileID: 1783563462218004, guid: 7f931d4b5c97d194d8726ddf5acdd440, type: 3}
-  EnemyMediumPrefab: {fileID: 1462720695320296, guid: e9a03d46b76afe246a9ffd58d255bb65, type: 3}
-  EnemyBigPrefab: {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d, type: 3}
+  EnemySmallPrefab: {fileID: 4956692093328357046, guid: 56bc6ee68c3595d4a826bfefaad660e0, type: 3}
+  EnemyMediumPrefab: {fileID: 8116717988809780811, guid: 9014ded9067bcba4abfa815dd701c6c5, type: 3}
+  EnemyBigPrefab: {fileID: 8779231230082696148, guid: 9badfe7959d7c1843ad1e8a03416e4ad, type: 3}
   BulletPrefab: {fileID: 1414454379284759778, guid: 0875a442c20d18e479690f7dc1a2e2e6, type: 3}
 --- !u!1001 &5448997757440456333
 PrefabInstance:

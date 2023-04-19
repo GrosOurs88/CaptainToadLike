@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6313222304235987369}
   - component: {fileID: 4547503191656952540}
   - component: {fileID: 1233180720566438005}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Portal_Enemy_Tiny
   m_TagString: Portal
   m_Icon: {fileID: 0}

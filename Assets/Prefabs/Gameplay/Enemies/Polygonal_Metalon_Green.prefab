@@ -1565,7 +1565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827532079330844140, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_Radius
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4885332431748952354, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_RootOrder
@@ -1585,7 +1585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9041759870709159394, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_Radius
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 428232044420539333, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}

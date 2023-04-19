@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyTrigger : MonoBehaviour
 {
-    public Enemy enemy;   
+    public Enemy enemy;
 
     private void OnTriggerEnter(Collider other)
     {

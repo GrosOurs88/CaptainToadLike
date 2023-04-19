@@ -1569,7 +1569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2827532079330844140, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_Radius
-      value: 1
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4885332431748952354, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_RootOrder
@@ -1579,13 +1579,17 @@ PrefabInstance:
       propertyPath: PV
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 5772811491007186387, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
+      propertyPath: AttackRange
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9041759870709159394, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_Height
       value: 3.2
       objectReference: {fileID: 0}
     - target: {fileID: 9041759870709159394, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_Radius
-      value: 1
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 9041759870709159394, guid: 0465e1784b29379428dbd60faa2e5bc9, type: 3}
       propertyPath: m_Center.y
