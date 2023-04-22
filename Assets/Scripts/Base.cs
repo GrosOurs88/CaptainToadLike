@@ -39,6 +39,7 @@ public class Base : MonoBehaviour
         EnumTypes.CristalTypes cristaltype = col.GetComponent<Unit>().CarriedCristal.GetComponent<Cristal>().cristalType;
 
         CristalCanvas = Instantiate(EnumTypes.Instance.CanvasCristalPrefab, transform.position, Quaternion.identity);
+        // CristalCanvas.gameObject.GetComponent<RectTransform>().position = transform.position;
 
         switch (cristaltype)
         {

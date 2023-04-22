@@ -14,7 +14,7 @@ public class CameraControl : MonoBehaviour
     public float MinCamFOV = 10.0f;
     public float MaxCamFOV = 35.0f;
     public bool useRotationKeys;
-    public bool useTranslationKeys;
+    public bool useTranslationWorldKeys;
 
 
     private void Start()
@@ -45,7 +45,7 @@ public class CameraControl : MonoBehaviour
             }
         }
 
-        else if (useTranslationKeys)
+        else if (useTranslationWorldKeys)
         {
             if (Input.GetKey(Left))
             {
