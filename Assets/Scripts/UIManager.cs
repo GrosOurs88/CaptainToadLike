@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI CristalBlueText, CristalYellowText, CristalRedText;
     public int CristalBlueAmount, CristalYellowAmount, CristalRedAmount;
     private GameObject PlayerBase;
+    public float UnitSpawnZOffset = -2.0f;
     [Header("Base Units")]
     public TextMeshProUGUI UnitBaseAmountText;
     [HideInInspector] public int UnitBaseAmount = 0;
@@ -37,9 +39,15 @@ public class UIManager : MonoBehaviour
     public int UnitFighterCristalYellowNeeded;
     public TextMeshProUGUI UnitFighterCristalRedNeededText;
     public int UnitFighterCristalRedNeeded;
+    [Header("Target Timer")]
+    public GameObject PanelTarget = null;
+    public Slider SliderTarget = null;
+    public float SliderTargetTimer = 10.0f;
 
     private GameObject NewUnit = null;
     private Vector3 RandomSpawningPosition;
+
+    private SelectionSquare selectionSquare;
 
     private void Awake()
     {
@@ -48,9 +56,33 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        selectionSquare = SelectionSquare.Instance;
         PlayerBase = EnumTypes.Instance.BasePlayer;
-        ResetCristalsUI();
+        SetCristalUI();
+        //ResetCristalsUI();
         ResetUnitsUI();
+        ResetSliderTarget();
+    }
+
+    private void Update()
+    {
+        if(selectionSquare.IsInTargetSelectionMode == true)
+        {
+            SliderTarget.value -= Time.deltaTime / SliderTargetTimer;
+
+            if(SliderTarget.value == 0)
+            {
+                EnumTypes.Instance.BasePlayer.GetComponent<Base>().NavmeshAgent.destination = EnumTypes.Instance.Area.GetComponent<Area>().TakeRandomTarget().transform.position;
+                SelectionSquare.Instance.IsInTargetSelectionMode = false;
+                SelectionSquare.Instance.IsInStrategyMode = true;
+                UIManager.Instance.SliderTarget.value = 1.0f;
+                PanelTarget.gameObject.SetActive(false);
+
+                EnumTypes.Instance.Area.GetComponent<Area>().SelectedTarget = EnumTypes.Instance.Area.GetComponent<Area>().TakeRandomTarget();
+                EnumTypes.Instance.Area.GetComponent<Area>().HideEveryTarget();
+                EnumTypes.Instance.Area.GetComponent<Area>().DisplaySelectedTarget();
+            }
+        }
     }
 
     public void AddCristals(int amountBlue, int amountYellow, int amountRed)
@@ -70,6 +102,13 @@ public class UIManager : MonoBehaviour
         CristalYellowAmount -= amountYellow;
         CristalRedAmount -= amountRed;
 
+        CristalBlueText.text = CristalBlueAmount.ToString();
+        CristalYellowText.text = CristalYellowAmount.ToString();
+        CristalRedText.text = CristalRedAmount.ToString();
+    }
+
+    private void SetCristalUI()
+    {
         CristalBlueText.text = CristalBlueAmount.ToString();
         CristalYellowText.text = CristalYellowAmount.ToString();
         CristalRedText.text = CristalRedAmount.ToString();
@@ -105,11 +144,19 @@ public class UIManager : MonoBehaviour
         UnitFighterCristalRedNeededText.text = UnitFighterCristalRedNeeded.ToString();
     }
 
+    private void ResetSliderTarget()
+    {
+        SliderTarget.GetComponent<Slider>().value = 1.0f;
+    }
+
     public void CreateUnitBase()
     {
         if(CristalBlueAmount >= UnitBaseCristalBlueNeeded && CristalYellowAmount >= UnitBaseCristalYellowNeeded && CristalRedAmount >= UnitBaseCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitBasePrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(PlayerBase.transform.localScale.x/2 - 1.0f), Quaternion.identity);
+            NewUnit = Instantiate(EnumTypes.Instance.UnitBasePrefab,
+                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
+                                  Quaternion.identity);
+
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
 
             RemoveCristals(UnitBaseCristalBlueNeeded, UnitBaseCristalYellowNeeded, UnitBaseCristalRedNeeded);
@@ -123,7 +170,10 @@ public class UIManager : MonoBehaviour
     {
         if (CristalBlueAmount >= UnitCarrierCristalBlueNeeded && CristalYellowAmount >= UnitCarrierCristalYellowNeeded && CristalRedAmount >= UnitCarrierCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitCarrierPrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(PlayerBase.transform.localScale.x/2 - 1.0f), Quaternion.identity);
+            NewUnit = Instantiate(EnumTypes.Instance.UnitCarrierPrefab,
+                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
+                                  Quaternion.identity);
+
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
 
             RemoveCristals(UnitCarrierCristalBlueNeeded, UnitCarrierCristalYellowNeeded, UnitCarrierCristalRedNeeded);
@@ -137,7 +187,10 @@ public class UIManager : MonoBehaviour
     {
         if (CristalBlueAmount >= UnitFighterCristalBlueNeeded && CristalYellowAmount >= UnitFighterCristalYellowNeeded && CristalRedAmount >= UnitFighterCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitFighterPrefab, PlayerBase.transform.position + RandomPositionInsideBaseArea(PlayerBase.transform.localScale.x/2 - 1.0f), Quaternion.identity);
+            NewUnit = Instantiate(EnumTypes.Instance.UnitFighterPrefab,
+                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
+                                  Quaternion.identity);
+
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
 
             RemoveCristals(UnitFighterCristalBlueNeeded, UnitFighterCristalYellowNeeded, UnitFighterCristalRedNeeded);

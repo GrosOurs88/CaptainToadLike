@@ -19,7 +19,7 @@ public class EnumTypes : MonoBehaviour
 
     public enum UnitTypes { unitbase, unitcarrier, unitfighter, Count };
 
-    public GameObject CanvasCristalPrefab;
+    public GameObject CanvasCristalPrefab, canvasClicktarget;
 
     public Color CristalBlueColor, CristalYellowColor, CristalRedColor;
 
@@ -28,6 +28,8 @@ public class EnumTypes : MonoBehaviour
     public GameObject EnemySmallPrefab, EnemyMediumPrefab, EnemyBigPrefab;
 
     public GameObject BulletPrefab;
+
+    public GameObject Area;
 
     private void Awake()
     {

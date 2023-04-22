@@ -127,7 +127,14 @@ public class Enemy : MonoBehaviour
     private void Attack()
     {
         SetAnimationTrigger("Attack");
-        UnitTarget.GetComponent<Unit>().TakeDamage();
+        if(UnitTarget.GetComponent<Unit>())
+        {
+            UnitTarget.GetComponent<Unit>().TakeDamage();
+        }
+        else if(UnitTarget.GetComponent<Base>())
+        {
+            UnitTarget.GetComponent<Base>().TakeDamage();
+        }
     }
 
     public void TakeDamage()

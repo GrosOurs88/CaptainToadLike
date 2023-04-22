@@ -698,7 +698,7 @@ GameObject:
   - component: {fileID: 2141591412263891031}
   - component: {fileID: 8804292269018441836}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: Panel_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1047,7 +1047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8862745, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2163,6 +2163,7 @@ MonoBehaviour:
   CristalBlueAmount: 0
   CristalYellowAmount: 0
   CristalRedAmount: 0
+  UnitSpawnZOffset: -2
   UnitBaseAmountText: {fileID: 5227913990046567923}
   UnitBaseAmount: 0
   UnitBaseCristalBlueNeededText: {fileID: 6485886144958484917}
@@ -2187,6 +2188,9 @@ MonoBehaviour:
   UnitFighterCristalYellowNeeded: 0
   UnitFighterCristalRedNeededText: {fileID: 7071241517070514759}
   UnitFighterCristalRedNeeded: 5
+  PanelTarget: {fileID: 1180937700049968487}
+  SliderTarget: {fileID: 2709732960963309713}
+  SliderTargetTimer: 15
 --- !u!1 &4753880513033686395
 GameObject:
   m_ObjectHideFlags: 0
@@ -3804,7 +3808,7 @@ GameObject:
   - component: {fileID: 868234971112304548}
   - component: {fileID: 2709732960963309713}
   m_Layer: 0
-  m_Name: Slider
+  m_Name: SliderTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

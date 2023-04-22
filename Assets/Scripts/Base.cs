@@ -9,10 +9,12 @@ public class Base : MonoBehaviour
 
     public int PV = 10;
     private float DamageRatio = 0f;
+    [HideInInspector] public NavMeshAgent NavmeshAgent;
+    public float StopMovingDistance = 0.1f;
 
     private void Start()
     {
-        DamageRatio = transform.localScale.x / (float)PV;
+        NavmeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,8 +40,7 @@ public class Base : MonoBehaviour
     {
         EnumTypes.CristalTypes cristaltype = col.GetComponent<Unit>().CarriedCristal.GetComponent<Cristal>().cristalType;
 
-        CristalCanvas = Instantiate(EnumTypes.Instance.CanvasCristalPrefab, transform.position, Quaternion.identity);
-        // CristalCanvas.gameObject.GetComponent<RectTransform>().position = transform.position;
+        CristalCanvas = Instantiate(EnumTypes.Instance.CanvasCristalPrefab, transform.position + new Vector3(0.0f, 3.5f, 0.0f), Quaternion.identity);
 
         switch (cristaltype)
         {
@@ -58,11 +59,19 @@ public class Base : MonoBehaviour
         }
     }
 
-    private void TakeDamage()
+    private void CheckPath()
     {
-        transform.localScale -= new Vector3(DamageRatio, 0f, DamageRatio);
+        if ((transform.position - NavmeshAgent.destination).magnitude <= StopMovingDistance)
+        {
+            NavmeshAgent.ResetPath();
+        }
+    }
 
-        if (transform.localScale.x <= 0.05f)
+    public void TakeDamage()
+    {
+        PV -= 1;
+
+        if (PV <= 0)
         {
             GameOver();
         }

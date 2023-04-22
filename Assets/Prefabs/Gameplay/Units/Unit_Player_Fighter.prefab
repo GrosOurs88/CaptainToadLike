@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 102371530939559607, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 939134500897906758, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: FireRate
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 939134500897906758, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: unitType
       value: 2
@@ -15,21 +23,29 @@ PrefabInstance:
       propertyPath: m_Speed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6063282106957310794, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160479694371440530, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2f2c054c29b722842a13837b40d17f8a, type: 2}
     - target: {fileID: 6160479694380771376, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6160479694380771376, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.9
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6160479694380771376, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.9
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6160479694380771376, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.9
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6160479694380771376, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -74,6 +90,18 @@ PrefabInstance:
     - target: {fileID: 6160479694380938256, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_Name
       value: Unit_Player_Fighter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7729810307041775521, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7729810307041775521, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7729810307041775521, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c65d643893800474088d4103f967eb9d, type: 3}

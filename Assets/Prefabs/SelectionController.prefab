@@ -190,7 +190,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_camera: {fileID: 0}
   selectionBox: {fileID: 7362278557455457370}
-  layerMaskUnit: 3
+  layerMaskUnit:
+    serializedVersion: 2
+    m_Bits: 8
+  layerMaskTargetArrow:
+    serializedVersion: 2
+    m_Bits: 64
   availableUnitList: []
   selectedUnitList: []
+  IsInTargetSelectionMode: 0
+  IsInStrategyMode: 0
   DebugSphere: {fileID: 8358418458124618804, guid: 568a472df5ba00d42807ce3d3c99cb5b, type: 3}

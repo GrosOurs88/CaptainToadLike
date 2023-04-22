@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class Unit : MonoBehaviour
     private GameObject NewBullet = null;
     private GameObject BulletPrefab;
     public int PV = 5;
+    public GameObject CanvasHealth;
+    public Slider CanvasHealthSlider;
     public float ShootOffsetY = 1.0f;
     public float StopMovingDistance = 0.1f;
 
@@ -38,6 +41,9 @@ public class Unit : MonoBehaviour
         NavmeshAgent = GetComponent<NavMeshAgent>();
         ShotDistance = CapsuleTrigger.radius + 0.5f; //offset to avoid the enemy to be perfectly at the distance of the sphere trigger
         BulletPrefab = EnumTypes.Instance.BulletPrefab;
+
+        CanvasHealthSlider.value = 1.0f;
+        HideHealthGauge();
 
         SetBase();
         IsUnselected();
@@ -102,6 +108,11 @@ public class Unit : MonoBehaviour
                 SetAnimationTrigger("Idle");
                 HasPath = false;
             }
+
+            if(CarryACristal)
+            {
+                NavmeshAgent.destination = Base.transform.position;
+            }
         }
     }
 
@@ -125,6 +136,16 @@ public class Unit : MonoBehaviour
     {
         CristalDepositTarget = null;
         AsACristalDepositTarget = false;
+    }
+
+    public void DisplayHealthGauge()
+    {
+        CanvasHealth.SetActive(true);
+    }
+
+    public void HideHealthGauge()
+    {
+        CanvasHealth.SetActive(false);
     }
 
     public void CarryCristal(GameObject cristalDeposit)
@@ -231,9 +252,31 @@ public class Unit : MonoBehaviour
     {
         PV -= 1;
 
+        CanvasHealthSlider.value -= (1 / PV);
+
+        UpdateHealthGauge();
+
         if (PV <= 0)
         {
             Die();
+        }
+    }
+
+    private void UpdateHealthGauge()
+    {
+        if(CanvasHealthSlider.value <= 0.3f)
+        {
+            CanvasHealthSlider.fillRect.GetComponent<Image>().color = Color.red;
+        }
+
+        else if (CanvasHealthSlider.value <= 0.7f)
+        {
+            CanvasHealthSlider.fillRect.GetComponent<Image>().color = Color.yellow;
+        }
+
+        else
+        {
+            CanvasHealthSlider.fillRect.GetComponent<Image>().color = Color.green;
         }
     }
 

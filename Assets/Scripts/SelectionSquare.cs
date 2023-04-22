@@ -12,7 +12,7 @@ public class SelectionSquare : MonoBehaviour
     public RectTransform selectionBox;
 
     //Layers
-    public LayerMask layerMaskUnit;
+    public LayerMask layerMaskUnit, layerMaskTargetArrow;
 
     //Unités disponibles
     public List<GameObject> availableUnitList;
@@ -26,6 +26,9 @@ public class SelectionSquare : MonoBehaviour
     private bool isDown = false;
 
     private bool IsACristalSelected = false;
+
+    [HideInInspector] public bool IsInTargetSelectionMode = false;
+    [HideInInspector] public bool IsInStrategyMode = false;
 
     public static SelectionSquare Instance;
 
@@ -45,6 +48,8 @@ public class SelectionSquare : MonoBehaviour
         UIManager.Instance.UnitBaseAmount = 0;
         UIManager.Instance.UnitCarrierAmount = 0;
         UIManager.Instance.UnitFighterAmount = 0;
+
+        IsInTargetSelectionMode = true;
 
         //Cherche toutes les unité sur la scène et remplit availableWarriorList
         foreach (var unit in FindObjectsOfType<Unit>())
@@ -68,6 +73,7 @@ public class SelectionSquare : MonoBehaviour
                     break;
             }
         }
+
         //Initialise selectedWarriorList
         selectedUnitList = new List<GameObject>();
 
@@ -84,7 +90,10 @@ public class SelectionSquare : MonoBehaviour
             foreach (GameObject unit in selectedUnitList)
             {
                 unit.GetComponent<Unit>().IsUnselected();
+                unit.GetComponent<Unit>().HideHealthGauge();
             }
+
+            //--------- Maybe unit.GetComponent<Unit>().HideHealthGauge(); ??
 
             //Vide le tableau de sélection
             selectedUnitList.Clear();
@@ -94,84 +103,119 @@ public class SelectionSquare : MonoBehaviour
 
             isDown = true;
 
-            //Fait apparaitre le rectangle de sélection
-            selectionBox.gameObject.SetActive(true);
-
-            // Simple clic
-            Ray rayLeft = m_camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitLeft;
-
-            if (Physics.Raycast(rayLeft, out hitLeft, Mathf.Infinity, layerMaskUnit))
+            if(IsInStrategyMode)
             {
-                selectedUnitList.Add(hitLeft.collider.gameObject);
+                //Fait apparaitre le rectangle de sélection
+                selectionBox.gameObject.SetActive(true);
 
-                foreach(GameObject unit in selectedUnitList)
+                // Simple clic
+                Ray rayLeft = m_camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitLeft;
+
+                if (Physics.Raycast(rayLeft, out hitLeft, Mathf.Infinity, layerMaskUnit))
                 {
-                    unit.GetComponent<Unit>().IsSelected();
+                    selectedUnitList.Add(hitLeft.collider.gameObject);
+
+                    foreach (GameObject unit in selectedUnitList)
+                    {
+                        unit.GetComponent<Unit>().IsSelected();
+                        unit.GetComponent<Unit>().DisplayHealthGauge();
+                    }
+                }
+            }
+
+            else if(IsInTargetSelectionMode)
+            {
+                // Simple clic
+                Ray rayLeft = m_camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitLeft;
+
+                if (Physics.Raycast(rayLeft, out hitLeft, Mathf.Infinity, layerMaskTargetArrow))
+                {
+
+                    EnumTypes.Instance.BasePlayer.GetComponent<Base>().NavmeshAgent.destination = hitLeft.point;
+
+                    IsInTargetSelectionMode = false;
+                    IsInStrategyMode = true;
+                    UIManager.Instance.SliderTarget.value = 1.0f;
+                    UIManager.Instance.PanelTarget.gameObject.SetActive(false);
+
+                    EnumTypes.Instance.Area.GetComponent<Area>().SelectedTarget = hitLeft.collider.gameObject.transform.parent.gameObject;
+                    EnumTypes.Instance.Area.GetComponent<Area>().HideEveryTarget();
+                    EnumTypes.Instance.Area.GetComponent<Area>().DisplaySelectedTarget();
                 }
             }
         }
 
         if (Input.GetMouseButtonDown(1))
         {
-            IsACristalSelected = false;
-
-            Ray rayRight = m_camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitRight;
-
-            if (Physics.Raycast(rayRight, out hitRight, Mathf.Infinity))
+            if (IsInStrategyMode)
             {
-                if(hitRight.collider.CompareTag("Cristal"))
+                IsACristalSelected = false;
+
+                Ray rayRight = m_camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitRight;
+
+                if (Physics.Raycast(rayRight, out hitRight, Mathf.Infinity))
                 {
-                    IsACristalSelected = true;
-
-                    foreach (GameObject unit in selectedUnitList)
+                    if (hitRight.collider.CompareTag("Cristal"))
                     {
-                        unit.GetComponent<Unit>().AsACristalDepositTarget = true;
-                        unit.GetComponent<Unit>().CristalDepositTarget = hitRight.collider.gameObject;
-                    }                    
+                        IsACristalSelected = true;
 
-                    hitRight.point = hitRight.collider.transform.position;
-                }
-
-                if (hitRight.collider.CompareTag("Enemy"))
-                {
-                    foreach (GameObject unit in selectedUnitList)
-                    {
-                        unit.GetComponent<Unit>().EnemyTarget = hitRight.collider.gameObject;
-
-                        if(unit.GetComponent<Unit>().CarryACristal)
+                        foreach (GameObject unit in selectedUnitList)
                         {
-                            unit.GetComponent<Unit>().CarryACristal = false;
-                            unit.GetComponent<Unit>().CarriedCristal = null;
-                            Destroy(unit.GetComponent<Unit>().CristalCarryPosition.GetChild(0).gameObject);
+                            unit.GetComponent<Unit>().AsACristalDepositTarget = true;
+                            unit.GetComponent<Unit>().CristalDepositTarget = hitRight.collider.gameObject;
+                        }
+
+                        GetStaticMovementPosition(hitRight.point);
+
+                        hitRight.point = hitRight.collider.transform.position;
+                    }
+
+                    if (hitRight.collider.CompareTag("Enemy"))
+                    {
+                        foreach (GameObject unit in selectedUnitList)
+                        {
+                            unit.GetComponent<Unit>().EnemyTarget = hitRight.collider.gameObject;
+
+                            if (unit.GetComponent<Unit>().CarryACristal)
+                            {
+                                unit.GetComponent<Unit>().CarryACristal = false;
+                                unit.GetComponent<Unit>().CarriedCristal = null;
+                                Destroy(unit.GetComponent<Unit>().CristalCarryPosition.GetChild(0).gameObject);
+                            }
+                        }
+
+                        hitRight.point = hitRight.collider.transform.position;
+                    }
+
+                    if (hitRight.collider.CompareTag("Portal"))
+                    {
+                        print("Portal selected");
+                    }
+
+                    NavMeshHit hit;
+
+                    if (NavMesh.SamplePosition(hitRight.point, out hit, 0.5f, NavMesh.AllAreas))
+                    {
+                        if (IsACristalSelected)
+                        {
+                            //Give the same position to each unit
+                            GetStaticMovementPosition(hitRight.point);
+                        }
+
+                        else
+                        {
+                            //Give position to the units according to the MovementData scriptable object
+                            GetDynamicMovementPosition(hitRight.point);
                         }
                     }
 
-                    hitRight.point = hitRight.collider.transform.position;
-                }
-
-                if (hitRight.collider.CompareTag("Portal"))
-                {
-                    print("Portal selected");
-                }
-
-                NavMeshHit hit;
-
-                if (NavMesh.SamplePosition(hitRight.point, out hit, 0.5f, NavMesh.AllAreas))
-                {
-                    if(IsACristalSelected)
-                    {
-                        //Give the same position to each unit
-                        GetStaticMovementPosition(hitRight.point);
-                    }
-
-                    else
-                    {
-                        //Give position to the units according to the MovementData scriptable object
-                        GetDynamicMovementPosition(hitRight.point);
-                    }
-                }
+                    GameObject newCLickTarget = Instantiate(EnumTypes.Instance.canvasClicktarget,
+                                                            hitRight.point + new Vector3(0.0f, 0.1f, 0.0f),
+                                                            EnumTypes.Instance.canvasClicktarget.GetComponent<RectTransform>().rotation);
+                }                
             }
         }
 
@@ -188,38 +232,42 @@ public class SelectionSquare : MonoBehaviour
         if (!isDown)
             return;
 
-        //Position de la souris cette frame
-        Vector2 curMousePos = Input.mousePosition;
-
-        //Position du rectangle de sélection
-        selectionBox.anchoredPosition = startPos;
-
-        //Calcule de la taille du rectangle de sélection
-        // position actuelle de la souris - osition au moment du clique
-        float width = curMousePos.x - startPos.x;
-        float height = curMousePos.y - startPos.y;
-
-        selectionBox.anchoredPosition = startPos + new Vector2(width / 2, height / 2);
-        selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
-
-        //Permettra de savoir si une unité rentre dans le rectangle de sélection
-        Bounds bounds = new Bounds(selectionBox.anchoredPosition, selectionBox.sizeDelta);
-
-        //Parcours toutes les uniteés
-        foreach (GameObject unit in availableUnitList)
+        if(IsInStrategyMode)
         {
-            //Convertit la position 3D de l'unité en position 2D sur l'écran
-            Vector2 posVector2 = m_camera.WorldToScreenPoint(unit.transform.position);
+            //Position de la souris cette frame
+            Vector2 curMousePos = Input.mousePosition;
 
-            //Vérifie si l'unité est dans le rectangle
-            if (CheckWarriorInBox(posVector2, bounds) && !(selectedUnitList.Contains(unit)))
+            //Position du rectangle de sélection
+            selectionBox.anchoredPosition = startPos;
+
+            //Calcule de la taille du rectangle de sélection
+            // position actuelle de la souris - osition au moment du clique
+            float width = curMousePos.x - startPos.x;
+            float height = curMousePos.y - startPos.y;
+
+            selectionBox.anchoredPosition = startPos + new Vector2(width / 2, height / 2);
+            selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
+
+            //Permettra de savoir si une unité rentre dans le rectangle de sélection
+            Bounds bounds = new Bounds(selectionBox.anchoredPosition, selectionBox.sizeDelta);
+
+            //Parcours toutes les uniteés
+            foreach (GameObject unit in availableUnitList)
             {
-                selectedUnitList.Add(unit);
+                //Convertit la position 3D de l'unité en position 2D sur l'écran
+                Vector2 posVector2 = m_camera.WorldToScreenPoint(unit.transform.position);
 
-                //Si oui, on sélectionne l'unité
-                unit.GetComponent<Unit>().IsSelected();
+                //Vérifie si l'unité est dans le rectangle
+                if (CheckWarriorInBox(posVector2, bounds) && !(selectedUnitList.Contains(unit)))
+                {
+                    selectedUnitList.Add(unit);
+
+                    //Si oui, on sélectionne l'unité
+                    unit.GetComponent<Unit>().IsSelected();
+                    unit.GetComponent<Unit>().DisplayHealthGauge();
+                }
             }
-        }
+        }        
     }
 
     //Fonction qui vérifie si l'unité est dans le rectangle

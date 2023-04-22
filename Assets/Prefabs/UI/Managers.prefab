@@ -54,6 +54,7 @@ MonoBehaviour:
   BaseEnemy2: {fileID: 0}
   BaseEnemy3: {fileID: 0}
   CanvasCristalPrefab: {fileID: 4646605756809073296, guid: e0f91bf7a81edaf449d605097cd13675, type: 3}
+  canvasClicktarget: {fileID: 4646605756809073296, guid: 446b92ded921ced4d9c24cdf90a0f422, type: 3}
   CristalBlueColor: {r: 0, g: 1, b: 0.9019608, a: 1}
   CristalYellowColor: {r: 0.9607843, g: 1, b: 0, a: 1}
   CristalRedColor: {r: 1, g: 0, b: 0.19215687, a: 1}
