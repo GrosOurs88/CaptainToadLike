@@ -40,9 +40,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI UnitFighterCristalRedNeededText;
     public int UnitFighterCristalRedNeeded;
     [Header("Target Timer")]
-    public GameObject PanelTarget = null;
-    public Slider SliderTarget = null;
-    public float SliderTargetTimer = 10.0f;
+    public GameObject PanelGlobalEvent = null;
+    public Image ImageGlobalEvent = null;
+    public float SliderGlobalEventTimer = 10.0f;
 
     private GameObject NewUnit = null;
     private Vector3 RandomSpawningPosition;
@@ -66,23 +66,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if(selectionSquare.IsInTargetSelectionMode == true)
-        {
-            SliderTarget.value -= Time.deltaTime / SliderTargetTimer;
 
-            if(SliderTarget.value == 0)
-            {
-                EnumTypes.Instance.BasePlayer.GetComponent<Base>().NavmeshAgent.destination = EnumTypes.Instance.Area.GetComponent<Area>().TakeRandomTarget().transform.position;
-                SelectionSquare.Instance.IsInTargetSelectionMode = false;
-                SelectionSquare.Instance.IsInStrategyMode = true;
-                UIManager.Instance.SliderTarget.value = 1.0f;
-                PanelTarget.gameObject.SetActive(false);
-
-                EnumTypes.Instance.Area.GetComponent<Area>().SelectedTarget = EnumTypes.Instance.Area.GetComponent<Area>().TakeRandomTarget();
-                EnumTypes.Instance.Area.GetComponent<Area>().HideEveryTarget();
-                EnumTypes.Instance.Area.GetComponent<Area>().DisplaySelectedTarget();
-            }
-        }
     }
 
     public void AddCristals(int amountBlue, int amountYellow, int amountRed)
@@ -146,7 +130,7 @@ public class UIManager : MonoBehaviour
 
     private void ResetSliderTarget()
     {
-        SliderTarget.GetComponent<Slider>().value = 1.0f;
+        ImageGlobalEvent.GetComponent<Image>().fillAmount = 0.0f;
     }
 
     public void CreateUnitBase()

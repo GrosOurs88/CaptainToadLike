@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyNestArea : MonoBehaviour
 {
-    private bool IsActivated = false;
+    public bool IsActivated = false; //private
     public List<GameObject> Nests = new List<GameObject>();
 
     private void OnTriggerEnter(Collider other)
@@ -14,8 +14,6 @@ public class EnemyNestArea : MonoBehaviour
             foreach (GameObject Nest in Nests)
             {
                 Nest.GetComponent<Nest>().Activate();
-
-                Nest.GetComponent<Nest>().NestAreas.Add(gameObject);
             }
 
             IsActivated = true;
@@ -24,14 +22,17 @@ public class EnemyNestArea : MonoBehaviour
 
     public void CheckNests()
     {
-        foreach(GameObject Nest in Nests)
+        if(Nests.Count > 0)
         {
-            if(Nest.GetComponent<Nest>().IsActivated)
+            foreach (GameObject Nest in Nests)
             {
-                return;
+                if (Nest.GetComponent<Nest>().IsActivated)
+                {
+                    return;
+                }
             }
-        }
 
-        IsActivated = false;
+            IsActivated = false;
+        }        
     }
 }

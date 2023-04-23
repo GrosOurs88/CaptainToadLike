@@ -4,28 +4,22 @@ using UnityEngine;
 
 public class Area : MonoBehaviour
 {
-    public List<GameObject> Targets = new List<GameObject>();
-    [HideInInspector] public GameObject SelectedTarget = null;
-    public float SelectedTargetScale = 1.0f;
+    public List<GameObject> EnemySpawners = new List<GameObject>();
+    private GameManager GameManager = null;
 
-    public GameObject TakeRandomTarget()
+    private void Start()
     {
-        int rand = Random.Range(0, Targets.Count);
-
-        return Targets[rand];
+        GameManager = GameManager.Instance;
     }
 
-    public void HideEveryTarget()
+    public void ActivateAreaEnemySpawners()
     {
-        foreach(GameObject Target in Targets)
+        foreach(GameObject EnemySpawner in EnemySpawners)
         {
-            Target.SetActive(false);
+            if(!GameManager.EnemySpawnersActive.Contains(EnemySpawner))
+            {
+                GameManager.EnemySpawnersActive.Add(EnemySpawner);
+            }
         }
-    }
-
-    public void DisplaySelectedTarget()
-    {
-        SelectedTarget.SetActive(true);
-        SelectedTarget.transform.localScale = new Vector3(SelectedTargetScale, SelectedTargetScale, SelectedTargetScale);
     }
 }

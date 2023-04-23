@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    public KeyCode Left, Right, Up, Down;
+    public KeyCode Left, Right, Up, Down, RotLeft, RotRight;
     public Transform TerrainCenterPoint = null;
-    public float CameraSensibility = 100f;
+    public float CameraTranslationSensibility = 100f;
+    public float CameraRotationSensibility = 100f;
     public float CameraFOVSensibility = 100f;
     private Camera Cam = null;
     private float CamRotX = 0.0f;
@@ -15,6 +16,7 @@ public class CameraControl : MonoBehaviour
     public float MaxCamFOV = 35.0f;
     public bool useRotationKeys;
     public bool useTranslationWorldKeys;
+    public Transform RotationCenterPoint = null;
 
 
     private void Start()
@@ -29,44 +31,53 @@ public class CameraControl : MonoBehaviour
         {
             if (Input.GetKey(Left))
             {
-                Cam.transform.RotateAround(TerrainCenterPoint.position, Vector3.up, CameraSensibility * Time.deltaTime);
+                Cam.transform.RotateAround(TerrainCenterPoint.position, Vector3.up, CameraTranslationSensibility * Time.deltaTime);
             }
             if (Input.GetKey(Right))
             {
-                Cam.transform.RotateAround(TerrainCenterPoint.position, Vector3.down, CameraSensibility * Time.deltaTime);
+                Cam.transform.RotateAround(TerrainCenterPoint.position, Vector3.down, CameraTranslationSensibility * Time.deltaTime);
             }
             if (Input.GetKey(Up))
             {
-                Cam.transform.RotateAround(TerrainCenterPoint.position, transform.right, CameraSensibility * Time.deltaTime);
+                Cam.transform.RotateAround(TerrainCenterPoint.position, transform.right, CameraTranslationSensibility * Time.deltaTime);
             }
             if (Input.GetKey(Down))
             {
-                Cam.transform.RotateAround(TerrainCenterPoint.position, -transform.right, CameraSensibility * Time.deltaTime);
+                Cam.transform.RotateAround(TerrainCenterPoint.position, -transform.right, CameraTranslationSensibility * Time.deltaTime);
             }
         }
 
         else if (useTranslationWorldKeys)
         {
+            print(Cam.transform.parent);
+
             if (Input.GetKey(Left))
             {
-                Cam.transform.Translate(Vector3.left * CameraSensibility * Time.deltaTime, Space.World);
+                Cam.transform.Translate(Vector3.left * CameraTranslationSensibility * Time.deltaTime, Space.Self);
             }
             if (Input.GetKey(Right))
             {
-                Cam.transform.Translate(Vector3.right * CameraSensibility * Time.deltaTime, Space.World);
+                Cam.transform.Translate(Vector3.right * CameraTranslationSensibility * Time.deltaTime, Space.Self);
             }
             if (Input.GetKey(Up))
             {
-                Cam.transform.Translate(Vector3.forward * CameraSensibility * Time.deltaTime, Space.World);
+                Cam.transform.Translate(transform.worldToLocalMatrix.MultiplyVector(Cam.transform.parent.transform.forward) * CameraTranslationSensibility * Time.deltaTime);
             }
             if (Input.GetKey(Down))
             {
-                Cam.transform.Translate(Vector3.back * CameraSensibility * Time.deltaTime, Space.World);
+                Cam.transform.Translate(transform.worldToLocalMatrix.MultiplyVector(-Cam.transform.parent.transform.forward) * CameraTranslationSensibility * Time.deltaTime);
+            }
+            if (Input.GetKey(RotLeft))
+            {
+                Cam.transform.parent.transform.RotateAround(RotationCenterPoint.position, Vector3.up, CameraRotationSensibility * Time.deltaTime);
+            }
+            if (Input.GetKey(RotRight))
+            {
+                Cam.transform.parent.transform.RotateAround(RotationCenterPoint.position, Vector3.down, CameraRotationSensibility * Time.deltaTime);
             }
         }
 
         CameraFOV();
-        // CameraHeight();
     }
 
     private void CameraFOV()

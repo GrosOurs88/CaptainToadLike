@@ -29,8 +29,6 @@ public class EnumTypes : MonoBehaviour
 
     public GameObject BulletPrefab;
 
-    public GameObject Area;
-
     private void Awake()
     {
         Instance = this;
