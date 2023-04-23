@@ -18,6 +18,7 @@ public class Fog : MonoBehaviour
 
     public void RemoveFog()
     {
+        FogParticleSystem.playbackSpeed = 10.0f;
         FogParticleSystem.Stop();
     }
 }
