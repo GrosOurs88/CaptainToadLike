@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4646605756809073303}
   - component: {fileID: 2797981268670185475}
   m_Layer: 5
-  m_Name: Canvas_Cristal
+  m_Name: P_Canvas_Cristal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

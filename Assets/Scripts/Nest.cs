@@ -27,15 +27,15 @@ public class Nest : MonoBehaviour
     {
         for (int i = 0; i < SmallEnemiesAmountPerSpawn; i++)
         {
-            Instantiate(EnumTypes.Instance.EnemySmallPrefab, RandomPointOnXZCircle(transform.position, SpawnRadius), Quaternion.identity);
+            Instantiate(GameplayElementsManager.Instance.EnemySmallPrefab, RandomPointOnXZCircle(transform.position, SpawnRadius), Quaternion.identity);
         }
         for (int i = 0; i < MediumEnemiesAmountPerSpawn; i++)
         {
-            Instantiate(EnumTypes.Instance.EnemyMediumPrefab, RandomPointOnXZCircle(transform.position, SpawnRadius), Quaternion.identity);
+            Instantiate(GameplayElementsManager.Instance.EnemyMediumPrefab, RandomPointOnXZCircle(transform.position, SpawnRadius), Quaternion.identity);
         }
         for (int i = 0; i < BigEnemiesAmountPerSpawn; i++)
         {
-            Instantiate(EnumTypes.Instance.EnemyBigPrefab, RandomPointOnXZCircle(transform.position, SpawnRadius), Quaternion.identity);
+            Instantiate(GameplayElementsManager.Instance.EnemyBigPrefab, RandomPointOnXZCircle(transform.position, SpawnRadius), Quaternion.identity);
         }
     }
 

@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         selectionSquare = SelectionSquare.Instance;
-        PlayerBase = EnumTypes.Instance.BasePlayer;
+        PlayerBase = GameplayElementsManager.Instance.BasePlayerPrefab;
         SetCristalUI();
         //ResetCristalsUI();
         ResetUnitsUI();
@@ -137,7 +137,7 @@ public class UIManager : MonoBehaviour
     {
         if(CristalBlueAmount >= UnitBaseCristalBlueNeeded && CristalYellowAmount >= UnitBaseCristalYellowNeeded && CristalRedAmount >= UnitBaseCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitBasePrefab,
+            NewUnit = Instantiate(GameplayElementsManager.Instance.UnitBasePrefab,
                                   PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
                                   Quaternion.identity);
 
@@ -154,7 +154,7 @@ public class UIManager : MonoBehaviour
     {
         if (CristalBlueAmount >= UnitCarrierCristalBlueNeeded && CristalYellowAmount >= UnitCarrierCristalYellowNeeded && CristalRedAmount >= UnitCarrierCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitCarrierPrefab,
+            NewUnit = Instantiate(GameplayElementsManager.Instance.UnitCarrierPrefab,
                                   PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
                                   Quaternion.identity);
 
@@ -171,7 +171,7 @@ public class UIManager : MonoBehaviour
     {
         if (CristalBlueAmount >= UnitFighterCristalBlueNeeded && CristalYellowAmount >= UnitFighterCristalYellowNeeded && CristalRedAmount >= UnitFighterCristalRedNeeded)
         {
-            NewUnit = Instantiate(EnumTypes.Instance.UnitFighterPrefab,
+            NewUnit = Instantiate(GameplayElementsManager.Instance.UnitFighterPrefab,
                                   PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
                                   Quaternion.identity);
 

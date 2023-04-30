@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<NavMeshAgent>().destination = EnumTypes.Instance.BasePlayer.transform.position;
+        GetComponent<NavMeshAgent>().destination = GameplayElementsManager.Instance.BasePlayerPrefab.transform.position;
         NavmeshAgent = GetComponent<NavMeshAgent>();
 
         SetAnimationBool("IsMoving", true);
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
 
                     if (!HasUnitTarget)
                     {
-                        SetNewTarget(EnumTypes.Instance.BasePlayer);
+                        SetNewTarget(GameplayElementsManager.Instance.BasePlayerPrefab);
                         SetAnimationBool("IsMoving", true);
                     }
 
@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
 
             if(!HasUnitTarget)
             {
-                SetNewTarget(EnumTypes.Instance.BasePlayer);
+                SetNewTarget(GameplayElementsManager.Instance.BasePlayerPrefab);
                 SetAnimationBool("IsMoving", true);
             }
         }
@@ -129,7 +129,7 @@ public class Enemy : MonoBehaviour
         SetAnimationTrigger("Attack");
         if(UnitTarget.GetComponent<Unit>())
         {
-            UnitTarget.GetComponent<Unit>().TakeDamage();
+            UnitTarget.GetComponent<UnitHealth>().TakeDamage();
         }
         else if(UnitTarget.GetComponent<Base>())
         {

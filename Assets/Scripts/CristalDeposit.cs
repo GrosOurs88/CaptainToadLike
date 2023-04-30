@@ -9,14 +9,14 @@ public class CristalDeposit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Friendly") && other.GetComponent<Unit>().CristalDepositTarget == gameObject)
+        if (other.CompareTag("Friendly") && other.GetComponent<UnitCarry>().CristalDepositTarget == gameObject)
         {
-            if(other.GetComponent<Unit>().CarryACristal)
+            if(other.GetComponent<UnitCarry>().CarryACristal)
             {
-                other.GetComponent<Unit>().DestroyCristal();
+                other.GetComponent<UnitCarry>().DestroyCristal();
             }
 
-            other.GetComponent<Unit>().CarryCristal(gameObject);
+            other.GetComponent<UnitCarry>().CarryCristal(gameObject);
 
             other.GetComponent<NavMeshAgent>().SetDestination(other.GetComponent<Unit>().Base.transform.position);
         }

@@ -2292,11 +2292,15 @@ GameObject:
   - component: {fileID: 7072444061591351794}
   - component: {fileID: 7072444061582351952}
   - component: {fileID: 580402688581251861}
+  - component: {fileID: 6226637185107333945}
   - component: {fileID: 7168938069264413320}
   - component: {fileID: 4201942123521440132}
-  - component: {fileID: 6226637185107333945}
+  - component: {fileID: 3726484805690520308}
+  - component: {fileID: 7135402917788632092}
+  - component: {fileID: 2219645868430469293}
+  - component: {fileID: 2179525529584926346}
   m_Layer: 3
-  m_Name: Unit_Base
+  m_Name: P_Unit_Base
   m_TagString: Friendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2350,12 +2354,28 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7072444061591711186}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &6226637185107333945
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072444061591711186}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!195 &7168938069264413320
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2390,41 +2410,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46a187ff5e7ea84083fb1f27df8d5ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 4
   unitType: 3
-  SelectionImage: {fileID: 6552341576892182621}
-  AsACristalDepositTarget: 0
-  CristalDepositTarget: {fileID: 0}
-  CarryACristal: 0
-  CarriedCristal: {fileID: 0}
-  CristalCarryPosition: {fileID: 2467146537774293001}
+  unitAnimation: {fileID: 2179525529584926346}
+  unitAttack: {fileID: 3726484805690520308}
+  unitCarry: {fileID: 2219645868430469293}
+  CanvasSelectionImage: {fileID: 6552341576892182621}
   Base: {fileID: 0}
-  HasEnemyTarget: 0
-  EnemyTarget: {fileID: 0}
-  FireRate: 0.25
-  CapsuleTrigger: {fileID: 7508882101616471797}
-  BulletSpawner: {fileID: 22967726536720011}
-  PV: 5
-  CanvasHealth: {fileID: 238648653154058427}
-  CanvasHealthSlider: {fileID: 1436964460574339958}
-  ShootOffsetY: 0
+  HasPath: 0
   StopMovingDistance: 0.1
---- !u!54 &6226637185107333945
-Rigidbody:
+--- !u!114 &3726484805690520308
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7072444061591711186}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e43caa7bb90e1b459ccfc85bb865702, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HasEnemyTarget: 0
+  EnemyTarget: {fileID: 0}
+  FireRate: 2
+  CapsuleTrigger: {fileID: 580402688581251861}
+  BulletSpawner: {fileID: 22967726536720011}
+  ShootOffsetY: 1
+--- !u!114 &7135402917788632092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072444061591711186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b84bad0f01468044b4150fdc3d6fa9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnitScript: {fileID: 4201942123521440132}
+  PV: 5
+  CanvasHealth: {fileID: 238648653154058427}
+  CanvasHealthSlider: {fileID: 1436964460574339958}
+--- !u!114 &2219645868430469293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072444061591711186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 064e7616a00d44a43be47d1c92c4db6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CristalCarryPosition: {fileID: 2467146537774293001}
+  AsACristalDepositTarget: 0
+  CristalDepositTarget: {fileID: 0}
+  CarryACristal: 0
+  CarriedCristal: {fileID: 0}
+--- !u!114 &2179525529584926346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7072444061591711186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff33fc8a3c8b294f84206b558d16888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7072444061591711188
 GameObject:
   m_ObjectHideFlags: 0

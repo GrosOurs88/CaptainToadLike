@@ -49,8 +49,6 @@ public class CameraControl : MonoBehaviour
 
         else if (useTranslationWorldKeys)
         {
-            print(Cam.transform.parent);
-
             if (Input.GetKey(Left))
             {
                 Cam.transform.Translate(Vector3.left * CameraTranslationSensibility * Time.deltaTime, Space.Self);

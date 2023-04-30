@@ -5,26 +5,36 @@ using UnityEngine;
 public class UnitTrigger : MonoBehaviour
 {
     public Unit unit;
+    private UnitAnimation unitAnimation;
+    private UnitAttack unitAttack;
+    private UnitCarry unitCarry;
+
+    private void Start()
+    {
+        unitAnimation = unit.unitAnimation;
+        unitAttack = unit.unitAttack;
+        unitCarry = unit.unitCarry;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") && unit.CarryACristal == false && unit.HasEnemyTarget == false)
+        if (other.CompareTag("Enemy") && unitCarry.CarryACristal == false && unitAttack.HasEnemyTarget == false)
         {
-            unit.SetAnimationBool("IsShooting", true);
+            unitAnimation.SetAnimationBool("IsShooting", true);
 
-            unit.EnemyTarget = other.gameObject;
-            unit.HasEnemyTarget = true;
+            unitAttack.EnemyTarget = other.gameObject;
+            unitAttack.HasEnemyTarget = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == unit.EnemyTarget)
+        if (other.gameObject == unitAttack.EnemyTarget)
         {
-            unit.SetAnimationBool("IsShooting", false);
+            unitAnimation.SetAnimationBool("IsShooting", false);
 
-            unit.EnemyTarget = null;
-            unit.HasEnemyTarget = false;
+            unitAttack.EnemyTarget = null;
+            unitAttack.HasEnemyTarget = false;
         }
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5714886884950605683}
   - component: {fileID: 8911755023284289216}
   m_Layer: 5
-  m_Name: Canvas_Click_Target
+  m_Name: P_Canvas_Click_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

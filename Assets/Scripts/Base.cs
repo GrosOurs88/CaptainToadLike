@@ -20,13 +20,13 @@ public class Base : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Friendly") && other.GetComponent<Unit>().CarryACristal)
+        if (other.CompareTag("Friendly") && other.GetComponent<UnitCarry>().CarryACristal)
         {
             AddResources(other);
 
-            other.GetComponent<Unit>().PlaceCristal();
+            other.GetComponent<UnitCarry>().PlaceCristal();
 
-            other.GetComponent<NavMeshAgent>().SetDestination(other.GetComponent<Unit>().CristalDepositTarget.transform.position);
+            other.GetComponent<NavMeshAgent>().SetDestination(other.GetComponent<UnitCarry>().CristalDepositTarget.transform.position);
         }
 
         if (other.CompareTag("Enemy"))
@@ -39,23 +39,23 @@ public class Base : MonoBehaviour
 
     private void AddResources(Collider col)
     {
-        EnumTypes.CristalTypes cristaltype = col.GetComponent<Unit>().CarriedCristal.GetComponent<Cristal>().cristalType;
+        EnumTypes.CristalTypes cristaltype = col.GetComponent<UnitCarry>().CarriedCristal.GetComponent<Cristal>().cristalType;
 
-        CristalCanvas = Instantiate(EnumTypes.Instance.CanvasCristalPrefab, transform.position + CristalCanvasInstantiationOffset, Quaternion.identity);
+        CristalCanvas = Instantiate(GameplayElementsManager.Instance.CanvasCristalPrefab, transform.position + CristalCanvasInstantiationOffset, Quaternion.identity);
 
         switch (cristaltype)
         {
             case EnumTypes.CristalTypes.blue:
                 UIManager.Instance.AddCristals(1, 0, 0);
-                CristalCanvas.GetComponent<CanvasCristal>().CristalIcon.color = EnumTypes.Instance.CristalBlueColor;
+                CristalCanvas.GetComponent<CanvasCristal>().CristalIcon.color = GameplayElementsManager.Instance.CristalBlueColor;
                 break;
             case EnumTypes.CristalTypes.yellow:
                 UIManager.Instance.AddCristals(0, 1, 0);
-                CristalCanvas.GetComponent<CanvasCristal>().CristalIcon.color = EnumTypes.Instance.CristalYellowColor;
+                CristalCanvas.GetComponent<CanvasCristal>().CristalIcon.color = GameplayElementsManager.Instance.CristalYellowColor;
                 break;
             case EnumTypes.CristalTypes.red:
                 UIManager.Instance.AddCristals(0, 0, 1);
-                CristalCanvas.GetComponent<CanvasCristal>().CristalIcon.color = EnumTypes.Instance.CristalRedColor;
+                CristalCanvas.GetComponent<CanvasCristal>().CristalIcon.color = GameplayElementsManager.Instance.CristalRedColor;
                 break;
         }
     }

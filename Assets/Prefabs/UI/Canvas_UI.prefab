@@ -2593,7 +2593,7 @@ MonoBehaviour:
   CristalBlueAmount: 0
   CristalYellowAmount: 0
   CristalRedAmount: 0
-  UnitSpawnZOffset: -2
+  UnitSpawnZOffset: -5
   UnitBaseAmountText: {fileID: 5227913990046567923}
   UnitBaseAmount: 0
   UnitBaseCristalBlueNeededText: {fileID: 6485886144958484917}

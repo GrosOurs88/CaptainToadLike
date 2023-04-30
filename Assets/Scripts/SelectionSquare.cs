@@ -40,7 +40,7 @@ public class SelectionSquare : MonoBehaviour
 
     private void Start()
     {
-        MovementData = EnumTypes.Instance.MovementData;
+        MovementData = UnitMovementManager.Instance.MovementData;
 
         UIManager.Instance.UnitBaseAmount = 0;
         UIManager.Instance.UnitCarrierAmount = 0;
@@ -85,7 +85,7 @@ public class SelectionSquare : MonoBehaviour
             foreach (GameObject unit in selectedUnitList)
             {
                 unit.GetComponent<Unit>().IsUnselected();
-                unit.GetComponent<Unit>().HideHealthGauge();
+                unit.GetComponent<UnitHealth>().HideHealthGauge();
             }
 
             //--------- Maybe unit.GetComponent<Unit>().HideHealthGauge(); ??
@@ -112,7 +112,7 @@ public class SelectionSquare : MonoBehaviour
                 foreach (GameObject unit in selectedUnitList)
                 {
                     unit.GetComponent<Unit>().IsSelected();
-                    unit.GetComponent<Unit>().DisplayHealthGauge();
+                    unit.GetComponent<UnitHealth>().DisplayHealthGauge();
                 }
             }
         }
@@ -132,8 +132,8 @@ public class SelectionSquare : MonoBehaviour
 
                     foreach (GameObject unit in selectedUnitList)
                     {
-                        unit.GetComponent<Unit>().AsACristalDepositTarget = true;
-                        unit.GetComponent<Unit>().CristalDepositTarget = hitRight.collider.gameObject;
+                        unit.GetComponent<UnitCarry>().AsACristalDepositTarget = true;
+                        unit.GetComponent<UnitCarry>().CristalDepositTarget = hitRight.collider.gameObject;
                     }
 
                     GetStaticMovementPosition(hitRight.point);
@@ -145,13 +145,13 @@ public class SelectionSquare : MonoBehaviour
                 {
                     foreach (GameObject unit in selectedUnitList)
                     {
-                        unit.GetComponent<Unit>().EnemyTarget = hitRight.collider.gameObject;
+                        unit.GetComponent<Unit>().unitAttack.EnemyTarget = hitRight.collider.gameObject;
 
-                        if (unit.GetComponent<Unit>().CarryACristal)
+                        if (unit.GetComponent<UnitCarry>().CarryACristal)
                         {
-                            unit.GetComponent<Unit>().CarryACristal = false;
-                            unit.GetComponent<Unit>().CarriedCristal = null;
-                            Destroy(unit.GetComponent<Unit>().CristalCarryPosition.GetChild(0).gameObject);
+                            unit.GetComponent<UnitCarry>().CarryACristal = false;
+                            unit.GetComponent<UnitCarry>().CarriedCristal = null;
+                            Destroy(unit.GetComponent<UnitCarry>().CristalCarryPosition.GetChild(0).gameObject);
                         }
                     }
 
@@ -180,11 +180,18 @@ public class SelectionSquare : MonoBehaviour
                     }
                 }
 
-                GameObject newCLickTarget = Instantiate(EnumTypes.Instance.canvasClicktarget,
+                GameObject newCLickTarget = Instantiate(GameplayElementsManager.Instance.CanvasClicktargetPrefab,
                                                         hitRight.point + new Vector3(0.0f, 0.1f, 0.0f),
-                                                        EnumTypes.Instance.canvasClicktarget.GetComponent<RectTransform>().rotation);
-            }
+                                                        GameplayElementsManager.Instance.CanvasClicktargetPrefab.GetComponent<RectTransform>().rotation);
 
+                foreach(GameObject unit in selectedUnitList)
+                {
+                    print("Move");
+                    unit.GetComponent<UnitAnimation>().ResetAnimationTrigger("Idle");
+                    unit.GetComponent<UnitAnimation>().SetAnimationTrigger("IsMoving");
+                    print("magnitude : " + (unit.transform.position - unit.GetComponent<Unit>().NavmeshAgent.destination).magnitude);
+                }
+            }
         }
 
         //Si on relâche le bouton gauche de la souris
@@ -230,7 +237,7 @@ public class SelectionSquare : MonoBehaviour
 
                 //Si oui, on sélectionne l'unité
                 unit.GetComponent<Unit>().IsSelected();
-                unit.GetComponent<Unit>().DisplayHealthGauge();
+                unit.GetComponent<UnitHealth>().DisplayHealthGauge();
             }
         }
     }
