@@ -27,4 +27,12 @@ public class GameManager : MonoBehaviour
             EnemySpawnersActive.Add(EnemySpawner);
         }
     }
+
+    public void TriggerEnemySpawnEvent() //to enlarge with different types
+    {
+        foreach (GameObject EnemySpawner in EnemySpawnersActive)
+        {
+            EnemySpawner.GetComponent<Nest>().Spawn();
+        }
+    }
 }

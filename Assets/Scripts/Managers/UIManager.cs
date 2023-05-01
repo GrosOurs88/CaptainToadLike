@@ -39,10 +39,6 @@ public class UIManager : MonoBehaviour
     public int UnitFighterCristalYellowNeeded;
     public TextMeshProUGUI UnitFighterCristalRedNeededText;
     public int UnitFighterCristalRedNeeded;
-    [Header("Target Timer")]
-    public GameObject PanelGlobalEvent = null;
-    public Image ImageGlobalEvent = null;
-    public float SliderGlobalEventTimer = 10.0f;
 
     private GameObject NewUnit = null;
     private Vector3 RandomSpawningPosition;
@@ -61,7 +57,6 @@ public class UIManager : MonoBehaviour
         SetCristalUI();
         //ResetCristalsUI();
         ResetUnitsUI();
-        ResetSliderTarget();
     }
 
     private void Update()
@@ -126,11 +121,6 @@ public class UIManager : MonoBehaviour
         UnitFighterCristalBlueNeededText.text = UnitFighterCristalBlueNeeded.ToString();
         UnitFighterCristalYellowNeededText.text = UnitFighterCristalYellowNeeded.ToString();
         UnitFighterCristalRedNeededText.text = UnitFighterCristalRedNeeded.ToString();
-    }
-
-    private void ResetSliderTarget()
-    {
-        ImageGlobalEvent.GetComponent<Image>().fillAmount = 0.0f;
     }
 
     public void CreateUnitBase()

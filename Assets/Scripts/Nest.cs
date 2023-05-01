@@ -23,7 +23,7 @@ public class Nest : MonoBehaviour
         IsActivated = false;
     }
 
-    private void Spawn()
+    public void Spawn()
     {
         for (int i = 0; i < SmallEnemiesAmountPerSpawn; i++)
         {

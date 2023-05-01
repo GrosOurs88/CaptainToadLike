@@ -52287,14 +52287,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1164645600207072944, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1164645600207072944, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2126005750905207589, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -52363,14 +52355,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3292883119122202449, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: Area
-      value: 
-      objectReference: {fileID: 1272590064}
-    - target: {fileID: 3292883119122202449, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: BasePlayer
-      value: 
-      objectReference: {fileID: 176899232418371635}
     - target: {fileID: 3292883119122202454, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -52451,26 +52435,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3292883120749703351, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: CristalRedAmount
-      value: 20
+    - target: {fileID: 5507069286350628737, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3292883120749703351, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: CristalBlueAmount
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3292883120749703351, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: CristalYellowAmount
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5598250537899791148, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
-      propertyPath: Area
-      value: 
-      objectReference: {fileID: 1272590064}
     - target: {fileID: 5598250537899791148, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
       propertyPath: AreaStart
       value: 
       objectReference: {fileID: 1272590064}
+    - target: {fileID: 7478720674231725729, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.463
+      objectReference: {fileID: 0}
     - target: {fileID: 7745707300546765188, guid: 32f6cbd9a9e31f34e9220704e5dd2c1f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -75219,11 +75195,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1576488453971394810, guid: a778b631c6253a04899cb31bad047c81, type: 3}
   m_PrefabInstance: {fileID: 2144332025}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &176899232418371635 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7163821234736463876, guid: 383d188013c13d149bfc4a7fb9476fcc, type: 3}
-  m_PrefabInstance: {fileID: 6998446070829684791}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1910236208647298101
 PrefabInstance:

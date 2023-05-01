@@ -186,10 +186,8 @@ public class SelectionSquare : MonoBehaviour
 
                 foreach(GameObject unit in selectedUnitList)
                 {
-                    print("Move");
                     unit.GetComponent<UnitAnimation>().ResetAnimationTrigger("Idle");
                     unit.GetComponent<UnitAnimation>().SetAnimationTrigger("IsMoving");
-                    print("magnitude : " + (unit.transform.position - unit.GetComponent<Unit>().NavmeshAgent.destination).magnitude);
                 }
             }
         }
