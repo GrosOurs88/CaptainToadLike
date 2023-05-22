@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 1.3
       objectReference: {fileID: 0}
+    - target: {fileID: 355529200204606262, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: FireRate
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 939134500897906758, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: FireRate
       value: 0.5
@@ -18,6 +22,18 @@ PrefabInstance:
     - target: {fileID: 939134500897906758, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: unitType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037911065340033569, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037911065340033569, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037911065340033569, guid: c65d643893800474088d4103f967eb9d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6063282106957310794, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_Speed
@@ -89,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6160479694380938256, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_Name
-      value: Unit_Player_Carrier
+      value: P_Unit_Player_Carrier
       objectReference: {fileID: 0}
     - target: {fileID: 7729810307041775521, guid: c65d643893800474088d4103f967eb9d, type: 3}
       propertyPath: m_LocalScale.x

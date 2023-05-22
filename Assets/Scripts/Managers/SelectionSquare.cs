@@ -107,7 +107,13 @@ public class SelectionSquare : MonoBehaviour
 
             if (Physics.Raycast(rayLeft, out hitLeft, Mathf.Infinity, layerMaskUnit))
             {
-                selectedUnitList.Add(hitLeft.collider.gameObject);
+                foreach(GameObject unitFromUnitGroup in hitLeft.collider.gameObject.transform.parent.gameObject.GetComponent<UnitGroup>().Units)
+                {
+                    if(!selectedUnitList.Contains(unitFromUnitGroup))
+                    {
+                        selectedUnitList.Add(unitFromUnitGroup);
+                    }
+                }
 
                 foreach (GameObject unit in selectedUnitList)
                 {
@@ -117,6 +123,7 @@ public class SelectionSquare : MonoBehaviour
             }
         }
 
+        //Si on clique sur le bouton droit de la souris 
         if (Input.GetMouseButtonDown(1))
         {
             IsACristalSelected = false;
@@ -229,13 +236,22 @@ public class SelectionSquare : MonoBehaviour
             Vector2 posVector2 = m_camera.WorldToScreenPoint(unit.transform.position);
 
             //Vérifie si l'unité est dans le rectangle
-            if (CheckWarriorInBox(posVector2, bounds) && !(selectedUnitList.Contains(unit)))
+            if (CheckWarriorInBox(posVector2, bounds) && (!selectedUnitList.Contains(unit)))
             {
-                selectedUnitList.Add(unit);
+                foreach (GameObject unitFromUnitGroup in unit.gameObject.transform.parent.gameObject.GetComponent<UnitGroup>().Units)
+                {
+                    if (!selectedUnitList.Contains(unitFromUnitGroup))
+                    {
+                        selectedUnitList.Add(unitFromUnitGroup);
 
-                //Si oui, on sélectionne l'unité
-                unit.GetComponent<Unit>().IsSelected();
-                unit.GetComponent<UnitHealth>().DisplayHealthGauge();
+                        //Si oui, on sélectionne l'unité
+                        unitFromUnitGroup.GetComponent<Unit>().IsSelected();
+                        unitFromUnitGroup.GetComponent<UnitHealth>().DisplayHealthGauge();
+                    }
+                }
+                ////Si oui, on sélectionne l'unité
+                //unit.GetComponent<Unit>().IsSelected();
+                //unit.GetComponent<UnitHealth>().DisplayHealthGauge();
             }
         }
     }

@@ -128,7 +128,7 @@ public class UIManager : MonoBehaviour
         if(CristalBlueAmount >= UnitBaseCristalBlueNeeded && CristalYellowAmount >= UnitBaseCristalYellowNeeded && CristalRedAmount >= UnitBaseCristalRedNeeded)
         {
             NewUnit = Instantiate(GameplayElementsManager.Instance.UnitBasePrefab,
-                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
+                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset + RandomPositionInsideBaseArea(1.0f),
                                   Quaternion.identity);
 
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
@@ -145,7 +145,7 @@ public class UIManager : MonoBehaviour
         if (CristalBlueAmount >= UnitCarrierCristalBlueNeeded && CristalYellowAmount >= UnitCarrierCristalYellowNeeded && CristalRedAmount >= UnitCarrierCristalRedNeeded)
         {
             NewUnit = Instantiate(GameplayElementsManager.Instance.UnitCarrierPrefab,
-                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
+                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset + RandomPositionInsideBaseArea(1.0f),
                                   Quaternion.identity);
 
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);
@@ -162,7 +162,7 @@ public class UIManager : MonoBehaviour
         if (CristalBlueAmount >= UnitFighterCristalBlueNeeded && CristalYellowAmount >= UnitFighterCristalYellowNeeded && CristalRedAmount >= UnitFighterCristalRedNeeded)
         {
             NewUnit = Instantiate(GameplayElementsManager.Instance.UnitFighterPrefab,
-                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset,
+                                  PlayerBase.transform.position + PlayerBase.transform.forward * UnitSpawnZOffset + RandomPositionInsideBaseArea(1.0f),
                                   Quaternion.identity);
 
             SelectionSquare.Instance.availableUnitList.Add(NewUnit);

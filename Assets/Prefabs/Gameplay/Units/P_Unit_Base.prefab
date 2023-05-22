@@ -431,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8408419795577062100}
   - component: {fileID: 7747823250775725107}
-  - component: {fileID: 7508882101616471797}
+  - component: {fileID: 1138329250981827089}
   - component: {fileID: 1430207400743828049}
   m_Layer: 2
   m_Name: SphereTrigger
@@ -470,8 +470,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!136 &7508882101616471797
-CapsuleCollider:
+--- !u!135 &1138329250981827089
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -480,9 +480,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 9
-  m_Height: 1
-  m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &1430207400743828049
 MonoBehaviour:
@@ -2416,7 +2415,7 @@ MonoBehaviour:
   unitCarry: {fileID: 2219645868430469293}
   CanvasSelectionImage: {fileID: 6552341576892182621}
   Base: {fileID: 0}
-  HasPath: 0
+  NavmeshAgent: {fileID: 0}
   StopMovingDistance: 0.1
 --- !u!114 &3726484805690520308
 MonoBehaviour:
@@ -2432,8 +2431,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasEnemyTarget: 0
   EnemyTarget: {fileID: 0}
-  FireRate: 2
-  CapsuleTrigger: {fileID: 580402688581251861}
+  FireRate: 0.15
+  SphereTrigger: {fileID: 1138329250981827089}
   BulletSpawner: {fileID: 22967726536720011}
   ShootOffsetY: 1
 --- !u!114 &7135402917788632092

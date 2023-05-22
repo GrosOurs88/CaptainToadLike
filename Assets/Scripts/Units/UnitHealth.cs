@@ -29,11 +29,11 @@ public class UnitHealth : MonoBehaviour
 
     public void TakeDamage()
     {
-        PV -= 1;
-
         CanvasHealthSlider.value -= (1 / PV);
 
-        UpdateHealthGauge();
+        PV -= 1;
+
+        UpdateHealthGaugeColour();
 
         if (PV <= 0)
         {
@@ -41,7 +41,7 @@ public class UnitHealth : MonoBehaviour
         }
     }
 
-    private void UpdateHealthGauge()
+    private void UpdateHealthGaugeColour()
     {
         if (CanvasHealthSlider.value <= 0.3f)
         {

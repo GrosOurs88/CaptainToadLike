@@ -10,6 +10,8 @@ public class Unit : MonoBehaviour
     public UnitAttack unitAttack;
     public UnitCarry unitCarry;
 
+    private UnitGroup unitGroup;
+
     public GameObject CanvasSelectionImage = null;
     public GameObject Base = null;
     [HideInInspector] public NavMeshAgent NavmeshAgent = null;
@@ -17,7 +19,8 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        NavmeshAgent = GetComponent<NavMeshAgent>();       
+        NavmeshAgent = GetComponent<NavMeshAgent>();
+        unitGroup = transform.parent.gameObject.GetComponent<UnitGroup>();
 
         SetBase();
         IsUnselected();

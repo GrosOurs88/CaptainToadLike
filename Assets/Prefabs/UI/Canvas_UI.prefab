@@ -2475,7 +2475,7 @@ MonoBehaviour:
   CristalBlueAmount: 0
   CristalYellowAmount: 0
   CristalRedAmount: 0
-  UnitSpawnZOffset: -5
+  UnitSpawnZOffset: 7
   UnitBaseAmountText: {fileID: 5227913990046567923}
   UnitBaseAmount: 0
   UnitBaseCristalBlueNeededText: {fileID: 6485886144958484917}
@@ -2514,7 +2514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalEventData: {fileID: 11400000, guid: 2c845c4a29f77254c945bba574054e06, type: 2}
   PanelGlobalEvent: {fileID: 363604943664595577}
-  SliderGlobalEventTimer: 120
+  SliderGlobalEventTimer: 180
   SliderCurrentEvent: {fileID: 829302486013361684}
   ImageCurrentEvent: {fileID: 7116669102441794522}
   ListEventSlider:

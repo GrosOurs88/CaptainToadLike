@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class UnitAttack : MonoBehaviour
 {
-    UnitAnimation unitAnimation;
+    private UnitAnimation unitAnimation;
 
     public bool HasEnemyTarget = false;
     public GameObject EnemyTarget = null;
     public float FireRate = 2.0f;
     private float FireRateTimer = 0.0f;
-    public CapsuleCollider CapsuleTrigger = null;
+    public SphereCollider SphereTrigger = null;
     private float ShotDistance = 0.0f;
     public Transform BulletSpawner = null;
     private GameObject NewBullet = null;
     private GameObject BulletPrefab;
-    public float ShootOffsetY = 1.0f;
 
     private void Start()
     {
-        ShotDistance = CapsuleTrigger.radius + 0.5f; //offset to avoid the enemy to be perfectly at the distance of the sphere trigger
+        unitAnimation = GetComponent<UnitAnimation>();
+        ShotDistance = SphereTrigger.radius + 0.5f; //offset to avoid the enemy to be perfectly at the distance of the sphere trigger
         BulletPrefab = GameplayElementsManager.Instance.BulletPrefab;
     }
 
@@ -38,7 +38,6 @@ public class UnitAttack : MonoBehaviour
             }
 
             LookAtEnemy();
-            CheckEnemyDistance();
 
             if (CheckEnemyDistance() <= ShotDistance)
             {
@@ -68,7 +67,7 @@ public class UnitAttack : MonoBehaviour
     private void Shoot()
     {
         NewBullet = Instantiate(BulletPrefab, BulletSpawner.position, Quaternion.identity);
-        NewBullet.transform.LookAt(EnemyTarget.transform.position + Vector3.up * ShootOffsetY);
+        NewBullet.transform.LookAt(EnemyTarget.GetComponent<Collider>().bounds.center);
     }
 
     private void LookForANewTarget()
@@ -76,7 +75,7 @@ public class UnitAttack : MonoBehaviour
         float Dist = 100.0f;
         GameObject NewTarget = null;
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, CapsuleTrigger.radius);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, SphereTrigger.radius);
 
         foreach (Collider col in hitColliders)
         {
